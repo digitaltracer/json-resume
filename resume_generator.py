@@ -39,11 +39,11 @@ def generate_resume_tex(data, output_tex_filename):
     doc.preamble.append(Command('renewcommand', NoEscape(r'\footrulewidth'), extra_arguments='0pt'))
 
     # Adjust margins
-    doc.preamble.append(Command('addtolength', arguments=[NoEscape(r'\oddsidemargin'), '-0.5in']))
-    doc.preamble.append(Command('addtolength', arguments=[NoEscape(r'\evensidemargin'), '-0.5in']))
-    doc.preamble.append(Command('addtolength', arguments=[NoEscape(r'\textwidth'), '1in']))
-    doc.preamble.append(Command('addtolength', arguments=[NoEscape(r'\topmargin'), '-.5in'])) # Note: LaTeX might prefer -0.5in
-    doc.preamble.append(Command('addtolength', arguments=[NoEscape(r'\textheight'), '1.0in']))
+    doc.preamble.append(Command('addtolength', arguments=[NoEscape(r'\oddsidemargin'), NoEscape('-0.5in')]))
+    doc.preamble.append(Command('addtolength', arguments=[NoEscape(r'\evensidemargin'), NoEscape('-0.5in')]))
+    doc.preamble.append(Command('addtolength', arguments=[NoEscape(r'\textwidth'), NoEscape('1in')]))
+    doc.preamble.append(Command('addtolength', arguments=[NoEscape(r'\topmargin'), NoEscape('-.5in')]))
+    doc.preamble.append(Command('addtolength', arguments=[NoEscape(r'\textheight'), NoEscape('1.0in')]))
 
     doc.preamble.append(Command('urlstyle', 'same'))
     doc.preamble.append(Command('raggedbottom'))
