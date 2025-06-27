@@ -280,22 +280,23 @@ class JakeResumePDF(FPDF):
         # Line 2: Degree (italics) | Date
         degree = entry.get("degree", "")
         date_str = entry.get("date", "")
+        item_text_size_pt = self.theme["font_config"]["resume_item_text_pt"]
 
         if degree or date_str:
             date_width = 0
             if date_str:
                 self._set_font(
-                    style=degree_style, size_pt=self.font_size_body_pt
+                    style=degree_style, size_pt=item_text_size_pt
                 )  # Italic for measuring date
                 date_width = self.get_string_width(date_str) + 5
 
             if degree:
-                self._set_font(style=degree_style, size_pt=self.font_size_body_pt)
+                self._set_font(style=degree_style, size_pt=item_text_size_pt)
                 self.cell(self.content_width - date_width, self.line_height_mm, degree, align="L")
 
             if date_str:
                 self._set_font(
-                    style=degree_style, size_pt=self.font_size_body_pt
+                    style=degree_style, size_pt=item_text_size_pt
                 )  # Italic for date text
                 self.cell(
                     date_width,
@@ -338,24 +339,25 @@ class JakeResumePDF(FPDF):
         # Line 2: Company (italics) | Location
         company = entry.get("company", "")
         location = entry.get("location", "")
+        item_text_size_pt = self.theme["font_config"]["resume_item_text_pt"]
 
         if company or location:
             location_width = 0
             if location:
                 self._set_font(
-                    style=company_style, size_pt=self.font_size_body_pt
+                    style=company_style, size_pt=item_text_size_pt
                 )  # Italic for measuring location
                 location_width = self.get_string_width(location) + 5
 
             if company:
-                self._set_font(style=company_style, size_pt=self.font_size_body_pt)
+                self._set_font(style=company_style, size_pt=item_text_size_pt)
                 self.cell(
                     self.content_width - location_width, self.line_height_mm, company, align="L"
                 )
 
             if location:
                 self._set_font(
-                    style=company_style, size_pt=self.font_size_body_pt
+                    style=company_style, size_pt=item_text_size_pt
                 )  # Italic for location text
                 self.cell(
                     location_width,
@@ -370,7 +372,7 @@ class JakeResumePDF(FPDF):
 
         # Bullet points for responsibilities
         if entry.get("responsibilities"):
-            self._set_font(style="", size_pt=self.font_size_body_pt)  # Regular for bullets
+            self._set_font(style="", size_pt=item_text_size_pt)  # Use item_text_size for bullets
             bullet_indent_mm = self.theme["spacing_mm"]["bullet_indent"]
             for resp in entry.get("responsibilities"):
                 self.set_x(self.l_margin + bullet_indent_mm)
@@ -403,6 +405,7 @@ class JakeResumePDF(FPDF):
 
         project_name = entry.get("name", "")
         technologies = entry.get("technologies", [])
+        item_text_size_pt = self.theme["font_config"]["resume_item_text_pt"]
 
         # Project name (bold) and Technologies (italic) on the same line, separated by " | "
         # Need to calculate widths to do this properly or use write_html if formatting is complex
@@ -410,7 +413,7 @@ class JakeResumePDF(FPDF):
         date_str = entry.get("date", "")
         date_width = 0
         if date_str:
-            self._set_font(style="", size_pt=self.font_size_body_pt)  # Regular for measuring date
+            self._set_font(style="", size_pt=item_text_size_pt)  # Regular for measuring date
             date_width = self.get_string_width(date_str) + 5
 
         # Constructing the project name + tech string part by part
@@ -418,18 +421,18 @@ class JakeResumePDF(FPDF):
         name_tech_width_available = self.content_width - date_width
 
         # Project Name part
-        self._set_font(style=project_name_style, size_pt=self.font_size_body_pt)
+        self._set_font(style=project_name_style, size_pt=item_text_size_pt)
         self.cell(
             self.get_string_width(project_name), self.line_height_mm, project_name, align="L"
         )
 
         # Technologies part (if any)
         if technologies:
-            self._set_font(style="", size_pt=self.font_size_body_pt)  # For separator
+            self._set_font(style="", size_pt=item_text_size_pt)  # For separator
             separator = " | "
             self.cell(self.get_string_width(separator), self.line_height_mm, separator, align="L")
 
-            self._set_font(style=tech_style, size_pt=self.font_size_body_pt)
+            self._set_font(style=tech_style, size_pt=item_text_size_pt)
             tech_text = ", ".join(technologies)
             # This is a simplification, assumes name + tech fits. Proper handling might need multi_cell or width check.
             self.cell(self.get_string_width(tech_text), self.line_height_mm, tech_text, align="L")
@@ -442,7 +445,7 @@ class JakeResumePDF(FPDF):
             self.set_xy(
                 self.l_margin + name_tech_width_available, current_y_before_date
             )  # x is end of name_tech space
-            self._set_font(style="", size_pt=self.font_size_body_pt)  # Regular for date
+            self._set_font(style="", size_pt=item_text_size_pt)  # Regular for date
             self.cell(
                 date_width, self.line_height_mm, date_str, new_x="LMARGIN", new_y="NEXT", align="R"
             )
@@ -451,7 +454,7 @@ class JakeResumePDF(FPDF):
 
         # Bullet points for description
         if entry.get("description"):
-            self._set_font(style="", size_pt=self.font_size_body_pt)  # Regular for bullets
+            self._set_font(style="", size_pt=item_text_size_pt)  # Use item_text_size for bullets
             bullet_indent_mm = self.theme["spacing_mm"]["bullet_indent"]
             for desc in entry.get("description"):
                 self.set_x(self.l_margin + bullet_indent_mm)
@@ -473,16 +476,17 @@ class JakeResumePDF(FPDF):
 
     def add_skills_section(self, skills_data):
         """Add skills section using theme styles"""
-        self._set_font(style="", size_pt=self.font_size_body_pt)  # Default for this section
+        skill_font_size_pt = self.theme["font_config"]["skill_text_pt"]
+        # self._set_font(style="", size_pt=skill_font_size_pt)  # Default for this section (already done by calls below)
 
         for category, skill_list in skills_data.items():
             # Bold category name, then regular colon, then skills
-            self._set_font(style="B", size_pt=self.font_size_body_pt)
+            self._set_font(style="B", size_pt=skill_font_size_pt)
             category_name_width = self.get_string_width(category)
             self.cell(category_name_width, self.line_height_mm, category, align="L")
 
             self._set_font(
-                style="", size_pt=self.font_size_body_pt
+                style="", size_pt=skill_font_size_pt
             )  # Regular for colon and skills
             colon_text = ": "
             colon_width = self.get_string_width(colon_text)
