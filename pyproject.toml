@@ -1,0 +1,36 @@
+[project]
+name = "resume-pdf-generator"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fpdf2>=2.8.3",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.12.1",
+]
+
+[tool.ruff]
+line-length = 99
+target-version = "py312" # Corresponds to requires-python = ">=3.12"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # Pyflakes
+    "I",  # isort
+    "UP", # pyupgrade
+    "PL", # Pylint (enables all Pylint rules, can be refined later)
+]
+ignore = [
+    "E501", # Line too long, handled by formatter and line-length setting
+    "PLR0913", # Too many arguments (often acceptable in specific cases)
+    "PLR0915", # Too many statements (can be refactored but sometimes acceptable)
+]
+
+[tool.ruff.format]
+quote-style = "double"
