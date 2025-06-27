@@ -1,0 +1,21 @@
+{
+  "fonts": {
+    "header": { "family": "Times", "style": "B", "size": 22 },
+    "contact": { "family": "Times", "style": "", "size": 11 },
+    "section_title": { "family": "Times", "style": "B", "size": 13 },
+
+    "university": { "family": "Times", "style": "B", "size": 11 },
+    "degree": { "family": "Times", "style": "I", "size": 11 },
+
+    "job_title": { "family": "Helvetica", "style": "B", "size": 11 },
+    "company": { "family": "Helvetica", "style": "I", "size": 11 },
+    "body": { "family": "Helvetica", "style": "", "size": 11 }
+  },
+
+  "bullets": { "char": "•", "indent_mm": 5 },
+
+  "hline_width_mm": 0.3,
+
+  "margins_mm": { "left": 15, "right": 15, "top": 20, "bottom": 15 },
+  "spacing_mm": { "section": 6, "entry": 3, "after_title": 3 }
+}
