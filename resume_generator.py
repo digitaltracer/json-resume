@@ -110,7 +110,10 @@ def generate_resume_tex(data, output_tex_filename):
 
     # Header (Name and Contact Info)
     with doc.create(Center()):
-        doc.append(Command('textbf', Arguments(NoEscape(r'\Huge \scshape '), escape_latex_data(data.get('name', 'Your Name')))))
+        name_str = data.get('name', 'Your Name')
+        # Ensure \Huge \scshape are within \textbf{}
+        formatted_name_latex = r'\textbf{{\Huge \scshape ' + escape_latex_data(name_str) + r'}}'
+        doc.append(NoEscape(formatted_name_latex))
         doc.append(LineBreak())
         doc.append(Command('vspace', '1pt'))
         doc.append(LineBreak()) # For the \vspace to take effect properly before next line
