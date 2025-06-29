@@ -1,207 +1,285 @@
-# Resume PDF Generator
+# JSON Resume Generator
 
-This Python script generates a PDF resume from a JSON data file, styled similarly to "Jake's Resume" template. It allows for customization of font family, base font size, and line height through command-line options.
+A **JSON-driven resume generator** that creates professional HTML/CSS resumes from structured JSON data and converts them to high-quality PDFs using Playwright. Achieve LaTeX-quality typography without LaTeX dependencies.
 
-## Prerequisites
+## 🚀 Quick Start
 
-- Python 3.x
-- [uv](https://github.com/astral-sh/uv) (recommended, for package management)
-- `fpdf2` (will be installed via `uv`)
-
-## Project Setup & Dependencies
-
-This project uses `uv` for package management and `ruff` for linting and formatting.
-
-1.  **Install `uv`**:
-    If you don't have `uv`, install it first. Follow instructions from [uv's official documentation](https://github.com/astral-sh/uv#installation). A common way is:
-    ```bash
-    pip install uv 
-    # or
-    # curl -LsSf https://astral.sh/uv/install.sh | sh
-    ```
-
-2.  **Create a virtual environment and sync dependencies**:
-    From the project root directory:
-    ```bash
-    uv venv .venv  # Create a virtual environment named .venv
-    source .venv/bin/activate  # Or .venv\Scripts\activate on Windows
-    uv sync --dev # Install main and development dependencies (fpdf2, ruff)
-    ```
-    (You can later deactivate the virtual environment with `deactivate`)
-
-
-## Usage
-
-1.  **Prepare your resume data:**
-    Create a JSON file (e.g., `my_resume_data.json`) based on the structure of `resume_data.json` (provided as an example). See the "Input Data Format" section below for details.
-    *   Ensure all text uses standard characters compatible with Latin-1 encoding if using core PDF fonts (Helvetica, Times, Courier). This means using hyphens `-` instead of en-dashes `–`, and avoiding special Unicode symbols not covered by these fonts. If you need broader Unicode support, you would need to modify the script to embed a Unicode-compatible font file (e.g., DejaVuSans.ttf) using FPDF's `add_font()` method.
-
-2.  **Run the script:**
-    Execute the `resume_generator.py` script from your terminal. Ensure your virtual environment (with `fpdf2` installed) is active, or run via `uv run`:
-
-    **Basic usage (defaults, assuming venv is active):**
-    ```bash
-    python resume_generator.py
-    ```
-    Or, using `uv run` (manages virtual environment context automatically):
-    ```bash
-    uv run python resume_generator.py
-    ```
-    This will:
-    *   Look for `resume_data.json` in the current directory.
-    *   Generate `resume_generated.pdf`.
-    *   Use "Helvetica" font, 10pt base body size, and a 1.5 line height multiplier.
-
-    **Customized usage (CLI Options, assuming venv is active):**
-    ```bash
-    python resume_generator.py --input-file my_data.json --output-file my_resume.pdf --font-family Times --font-size-body 11 --line-height-multiplier 1.4
-    ```
-    Or with `uv run`:
-    ```bash
-    uv run python resume_generator.py --input-file my_data.json --output-file my_resume.pdf --font-family Times --font-size-body 11 --line-height-multiplier 1.4
-    ```
-
-### Command-Line Options
-
-The script accepts the following command-line arguments:
-
-*   `--input-file FILE_PATH`:
-    *   Path to the JSON input file containing your resume data.
-    *   Default: `resume_data.json`
-
-*   `--output-file FILE_PATH`:
-    *   Path where the generated PDF resume will be saved.
-    *   Default: `resume_generated.pdf`
-
-*   `--font-family {Helvetica,Arial,Times,Courier}`:
-    *   Specifies the base font family for the resume.
-    *   `Arial` will be substituted by `Helvetica` by FPDF2 for core fonts. For true Arial, a font file would need to be added to the script.
-    *   Default: `Helvetica`
-
-*   `--font-size-body POINTS`:
-    *   Sets the base font size in points for the body text. Other font sizes (e.g., for name, section titles) are derived proportionally from this value.
-    *   Default: `10`
-
-*   `--line-height-multiplier FLOAT`:
-    *   A multiplier that adjusts the line height based on the font size. For example, `1.5` means the line height will be 1.5 times the (converted) font size.
-    *   Default: `1.5`
-
-*   `-h, --help`:
-    *   Show a help message listing all options and exit.
-
-**Example with multiple options:**
+### One-Command PDF Generation
 ```bash
-python resume_generator.py --font-family Arial --font-size-body 9 --line-height-multiplier 1.3 --input-file my_personal_data.json --output-file MyArialResume_v1.pdf
+# Generate PDF directly from JSON (recommended)
+python3 resume_to_pdf.py --input resume_data.json --output resume.pdf
+
+# With custom theme
+python3 resume_to_pdf.py --input resume_data.json --template modern_theme.json --output resume.pdf
 ```
 
-## Development - Linting and Formatting
+### Step-by-Step Generation
+```bash
+# 1. Generate HTML
+python3 html_generator.py --input resume_data.json --output resume.html
 
-This project uses `ruff` for code linting and formatting, managed via `uv`.
+# 2. Convert to PDF
+python3 pdf_generator.py resume.html resume.pdf
+```
 
-*   **Activate your virtual environment** if not already active:
-    ```bash
-    source .venv/bin/activate 
-    ```
-*   **Format code**:
-    ```bash
-    uv run ruff format .
-    # or just 'ruff format .' if venv is active and ruff is in PATH
-    ```
-*   **Check for linting issues**:
-    ```bash
-    uv run ruff check .
-    # or just 'ruff check .'
-    ```
-*   **Automatically fix linting issues (where possible)**:
-    ```bash
-    uv run ruff check --fix .
-    # or just 'ruff check --fix .'
-    ```
-Ruff configuration is stored in `pyproject.toml` under `[tool.ruff]`.
+## ✨ Features
 
-## Input Data Format (JSON)
+- **🎨 100% Theme Configurability**: All styling defined in JSON templates
+- **📄 One-Command Workflow**: JSON → PDF in a single script
+- **🖨️ Print-Ready**: Optimized for browser PDF printing
+- **🎯 Professional Typography**: LaTeX-quality formatting with web fonts
+- **🔧 No Dependencies**: Uses HTML/CSS instead of LaTeX
+- **🎪 Multiple Themes**: Easy theme creation and switching
 
-The input JSON file should follow this structure:
+## 📁 Project Structure
+
+```
+json-resume/
+├── resume_to_pdf.py        # 🎯 Main: JSON → PDF (one command)
+├── html_generator.py       # HTML generation engine
+├── pdf_generator.py        # HTML → PDF conversion
+├── resume_data.json        # 📝 Resume content data
+├── html_template.json      # 🎨 Complete theme configuration
+├── theme.json             # Legacy theme file
+└── pyproject.toml         # Dependencies
+```
+
+## 🎨 Theme System
+
+### Complete Theme Configurability
+All styling is defined in JSON templates with zero hardcoded CSS:
 
 ```json
 {
-  "name": "Your Full Name",
+  "document": {
+    "page_size": "letter",
+    "margins": "0.5in"
+  },
+  "fonts": {
+    "primary": "Computer Modern Serif",
+    "google_fonts": "https://..."
+  },
+  "typography": {
+    "base_font_size": "11pt",
+    "name_size": "24pt"
+  },
+  "spacing": {
+    "section_margin_bottom": "9pt",
+    "entry_margin_bottom": "2pt"
+  },
+  "css": {
+    "header": {
+      ".name": {
+        "font-size": "{{ typography.name_size }}",
+        "font-weight": "bold"
+      }
+    }
+  }
+}
+```
+
+### Creating Custom Themes
+```bash
+# Copy default theme
+cp html_template.json my_theme.json
+
+# Edit my_theme.json (change fonts, colors, spacing)
+
+# Use custom theme
+python3 resume_to_pdf.py --template my_theme.json --output resume.pdf
+```
+
+## 📋 Usage Examples
+
+### Basic Usage
+```bash
+# Default settings
+python3 resume_to_pdf.py
+
+# Equivalent to:
+python3 resume_to_pdf.py --input resume_data.json --template html_template.json --output resume.pdf
+```
+
+### Custom Configurations
+```bash
+# Different resume data
+python3 resume_to_pdf.py --input john_resume.json --output john.pdf
+
+# Different theme
+python3 resume_to_pdf.py --template modern_theme.json --output resume_modern.pdf
+
+# Full customization
+python3 resume_to_pdf.py --input jane_resume.json --template minimal_theme.json --output jane_minimal.pdf
+```
+
+### Multiple Versions
+```bash
+# Same data, different themes
+python3 resume_to_pdf.py --input resume_data.json --template classic_theme.json --output resume_classic.pdf
+python3 resume_to_pdf.py --input resume_data.json --template modern_theme.json --output resume_modern.pdf
+python3 resume_to_pdf.py --input resume_data.json --template minimal_theme.json --output resume_minimal.pdf
+```
+
+## 📝 Resume Data Format
+
+Structure your resume data in `resume_data.json`:
+
+```json
+{
+  "name": "Your Name",
   "contact": {
-    "phone": "(555) 123-4567",
-    "email": "youremail@example.com",
-    "linkedin": "linkedin.com/in/yourprofile",
-    "github": "github.com/yourusername",
-    "address": "Optional: 123 Your Street, Your City, ST 12345" 
+    "phone": "123-456-7890",
+    "email": "you@example.com",
+    "linkedin": "linkedin.com/in/you",
+    "github": "github.com/you"
   },
   "education": [
     {
-      "degree": "Your Degree (e.g., M.S. in Computer Science)",
       "university": "University Name",
-      "date": "Graduation Date (e.g., May 2020)",
-      "gpa": "Optional: X.X/Y.Y",
-      "courses": [
-        "Optional: Relevant Course 1", "Relevant Course 2"
-      ]
+      "location": "City, State",
+      "degree": "Degree Title",
+      "date": "Start - End"
     }
-    // Add more education entries if needed
   ],
   "experience": [
     {
       "title": "Job Title",
       "company": "Company Name",
-      "dates": "Employment Dates (e.g., June 2020 - Present or Jan 2019 - Dec 2019)",
-      "location": "City, ST",
+      "location": "City, State",
+      "dates": "Start - End",
       "responsibilities": [
-        "Responsibility or achievement 1.",
-        "Responsibility or achievement 2."
+        "Achievement or responsibility",
+        "Another achievement"
       ]
     }
-    // Add more experience entries if needed
   ],
   "projects": [
     {
       "name": "Project Name",
-      "technologies": ["Optional: Tech 1", "Tech 2"],
-      "date": "Optional: Project Date/Year",
-      "link": "Optional: github.com/yourusername/project",
+      "technologies": ["Tech1", "Tech2"],
+      "date": "Date",
       "description": [
-        "Project description point 1.",
-        "Project description point 2."
+        "Project description",
+        "Key achievements"
       ]
     }
-    // Add more project entries if needed
   ],
   "skills": {
-    "Category 1 (e.g., Languages)": ["Skill A", "Skill B", "Skill C"],
-    "Category 2 (e.g., Frameworks)": ["Skill D", "Skill E"],
-    // Add more skill categories and skills as needed
+    "Languages": ["Python", "JavaScript"],
+    "Frameworks": ["React", "Flask"],
+    "Tools": ["Git", "Docker"]
   }
 }
 ```
 
-### Notes on Data:
-*   All fields are optional in terms of script execution, but a good resume will have most of them.
-*   If a section (like "projects") is not needed, you can omit it entirely from the JSON or provide an empty list (e.g., `"projects": []`). The script will skip empty/missing sections.
+## ⚙️ Installation
 
-## Script Overview (`resume_generator.py`)
+### Dependencies
+```bash
+# Install dependencies
+pip install playwright
 
-*   **Argument Parsing (`argparse`):** Handles command-line options for customization.
-*   **Global Constants:** Defines layout parameters like page width, margins, and fixed spacing elements.
-*   **`ResumePDF` Class (inherits from `FPDF`):**
-    *   Initialized with font family, base font size, and line height multiplier from CLI arguments.
-    *   Derives various font sizes (for name, titles, body, etc.) from the base font size.
-    *   Calculates line heights in millimeters based on font size and multiplier.
-    *   Contains custom methods for adding different parts of the resume (e.g., `add_section_title`, `add_education_entry`).
-    *   Handles text formatting, alignment, and drawing lines using the specified font settings.
-*   **`create_resume(data, output_filename, ...)` Function:**
-    *   Initializes the `ResumePDF` object with all provided settings.
-    *   Iterates through the input `data` dictionary.
-    *   Calls the appropriate `ResumePDF` methods to build the document.
-    *   Saves the PDF to `output_filename`.
-*   **Main Execution Block (`if __name__ == "__main__":`):**
-    *   Parses command-line arguments.
-    *   Loads data from the specified input JSON file.
-    *   Calls `create_resume` with the parsed settings and data to generate the PDF.
-    *   Includes error handling for file operations and JSON parsing.
+# Install browser
+playwright install chromium
+```
 
-This script provides a flexible way to generate styled PDF resumes and can be further customized by modifying the Python code for more advanced styling or new sections.
+### Alternative with UV
+```bash
+# Using UV package manager
+uv sync
+uv run resume_to_pdf.py --input resume_data.json --output resume.pdf
+```
+
+## 🎛️ Advanced Theme Customization
+
+### Typography Settings
+```json
+{
+  "typography": {
+    "base_font_size": "11pt",
+    "line_height": "1.15",
+    "name_size": "24pt",
+    "section_title_size": "13pt",
+    "contact_size": "9.5pt",
+    "small_size": "9.5pt"
+  }
+}
+```
+
+### Layout Spacing
+```json
+{
+  "spacing": {
+    "header_margin_bottom": "15pt",
+    "section_margin_bottom": "9pt",
+    "section_content_margin_left": "15pt",
+    "entry_margin_bottom": "2pt",
+    "item_list_margin_left": "15pt"
+  }
+}
+```
+
+### Complete CSS Control
+The theme system allows complete CSS customization through JSON:
+
+```json
+{
+  "css": {
+    "sections": {
+      ".section-title": {
+        "font-variant": "small-caps",
+        "border-bottom": "0.5pt solid black",
+        "color": "{{ custom.primary_color }}"
+      }
+    }
+  }
+}
+```
+
+## 🛠️ Development
+
+### Code Quality
+```bash
+# Linting
+uv run ruff check
+uv run ruff format
+
+# Type checking with ruff
+uv run ruff check --select=F
+```
+
+### Architecture
+- **JSON-First**: All configuration in JSON files
+- **Template-Driven**: Zero hardcoded styling in Python
+- **Modular Design**: Separate HTML generation and PDF conversion
+- **Clean Separation**: Logic vs. presentation
+
+## 📖 Legacy Workflows
+
+### HTML-Only Generation
+```bash
+python3 html_generator.py --input resume_data.json --output resume.html
+```
+
+### HTML to PDF Conversion
+```bash
+python3 pdf_generator.py resume.html resume.pdf
+```
+
+## 🎯 Key Benefits
+
+1. **One Command**: JSON → PDF directly
+2. **Theme Flexibility**: Create unlimited themes via JSON
+3. **Professional Output**: LaTeX-quality typography
+4. **No LaTeX**: Pure HTML/CSS approach
+5. **Web Fonts**: Google Fonts integration
+6. **Print Optimized**: Perfect PDF generation
+7. **Developer Friendly**: JSON configuration, not code
+
+## 🤝 Contributing
+
+The project follows a clean architecture with complete separation between content (JSON), presentation (CSS/themes), and logic (Python). All styling is externalized to JSON templates, making theme creation accessible without coding.
+
+---
+
+**Generate professional resumes with the simplicity of JSON and the power of modern web technologies!** 🚀
