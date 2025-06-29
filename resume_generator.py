@@ -5,13 +5,20 @@ import sys
 import tempfile
 import os
 import shutil
-from pylatex import Document, Section, Command, utils, NewPage, PageStyle, Head, Foot, MiniPage, LargeText, MediumText, LineBreak, SmallText, FlushLeft, FlushRight, Center
-from pylatex.base_classes import Environment, Arguments
-from pylatex.package import Package
-from pylatex.utils import NoEscape # Important for raw LaTeX commands
+
+# LaTeX imports - only imported when needed
+def _import_pylatex():
+    from pylatex import Document, Section, Command, utils, NewPage, PageStyle, Head, Foot, MiniPage, LargeText, MediumText, LineBreak, SmallText, FlushLeft, FlushRight, Center
+    from pylatex.base_classes import Environment, Arguments
+    from pylatex.package import Package
+    from pylatex.utils import NoEscape
+    return Document, Section, Command, utils, NewPage, PageStyle, Head, Foot, MiniPage, LargeText, MediumText, LineBreak, SmallText, FlushLeft, FlushRight, Center, Environment, Arguments, Package, NoEscape
 
 # Placeholder for the main generation function
 def generate_resume_tex(data, output_tex_filename):
+    # Import PyLaTeX modules
+    Document, Section, Command, utils, NewPage, PageStyle, Head, Foot, MiniPage, LargeText, MediumText, LineBreak, SmallText, FlushLeft, FlushRight, Center, Environment, Arguments, Package, NoEscape = _import_pylatex()
+    
     # Document setup (mimicking resume.tex)
     # Default PyLaTeX document name is 'default_filename.tex' if not specified in generate_tex
     doc = Document(documentclass='article', document_options=['letterpaper', '11pt'])
@@ -275,7 +282,7 @@ def compile_tex_to_pdf(tex_filepath, output_directory, compiler='pdflatex', mock
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Generate a PDF resume from JSON data by compiling LaTeX."
+        description="Generate a PDF resume from JSON data by compiling LaTeX or using native Python."
     )
     parser.add_argument(
         "--input-file",
@@ -290,15 +297,22 @@ if __name__ == "__main__":
         help="Path for the final generated PDF file (default: jakes_resume.pdf)",
     )
     parser.add_argument(
+        "--method",
+        type=str,
+        choices=["latex", "native", "html"],
+        default="html",
+        help="Generation method: 'latex' (requires LaTeX), 'native' (pure Python PDF), or 'html' (HTML/CSS output) (default: html)",
+    )
+    parser.add_argument(
         "--latex-compiler",
         type=str,
         default="pdflatex",
-        help="LaTeX compiler to use (default: pdflatex)",
+        help="LaTeX compiler to use when method=latex (default: pdflatex)",
     )
     parser.add_argument(
         "--keep-tex-file",
         action="store_true",
-        help="Keep the intermediate .tex file after PDF generation.",
+        help="Keep the intermediate .tex file after PDF generation (only for latex method).",
     )
 
 
@@ -308,54 +322,74 @@ if __name__ == "__main__":
         with open(args.input_file, encoding="utf-8") as f:
             resume_data = json.load(f)
 
-        with tempfile.TemporaryDirectory() as tmpdir:
-            temp_tex_basename = "resume_temp"
-            # generate_resume_tex is designed to take a base filepath for doc.generate_tex()
-            doc = generate_resume_tex(resume_data, temp_tex_basename) # Pass only basename
-            doc.generate_tex(os.path.join(tmpdir, temp_tex_basename)) # Generate into temp dir
+        if args.method == "native":
+            # Use native Python PDF generation
+            from native_pdf_generator import generate_resume_pdf
+            success = generate_resume_pdf(args.input_file, args.output_pdf_file)
+            if not success:
+                sys.exit(1)
+        elif args.method == "html":
+            # Use HTML/CSS generation
+            from html_generator import HTMLResumeGenerator
+            output_html = args.output_pdf_file.replace('.pdf', '.html')
+            generator = HTMLResumeGenerator()
+            html_content = generator.generate_html_from_json(resume_data)
+            if html_content and generator.save_html(html_content, output_html):
+                print(f"Successfully generated HTML resume: {output_html}")
+                print("Open in browser and print to PDF for final output.")
+            else:
+                print("HTML generation failed.")
+                sys.exit(1)
+        else:
+            # Use LaTeX method (original implementation)
+            with tempfile.TemporaryDirectory() as tmpdir:
+                temp_tex_basename = "resume_temp"
+                # generate_resume_tex is designed to take a base filepath for doc.generate_tex()
+                doc = generate_resume_tex(resume_data, temp_tex_basename) # Pass only basename
+                doc.generate_tex(os.path.join(tmpdir, temp_tex_basename)) # Generate into temp dir
 
-            temp_tex_filepath = os.path.join(tmpdir, f"{temp_tex_basename}.tex")
-            print(f"Intermediate LaTeX file generated at: {temp_tex_filepath}")
+                temp_tex_filepath = os.path.join(tmpdir, f"{temp_tex_basename}.tex")
+                print(f"Intermediate LaTeX file generated at: {temp_tex_filepath}")
 
-            # Pass mock_compilation_for_testing=True for environments without LaTeX
-            # In a real scenario, this flag would be set based on environment or a specific CLI arg.
-            generated_pdf_path = compile_tex_to_pdf(
-                temp_tex_filepath,
-                tmpdir,
-                args.latex_compiler,
-                mock_compilation_for_testing=True
-            )
+                # Pass mock_compilation_for_testing=True for environments without LaTeX
+                # In a real scenario, this flag would be set based on environment or a specific CLI arg.
+                generated_pdf_path = compile_tex_to_pdf(
+                    temp_tex_filepath,
+                    tmpdir,
+                    args.latex_compiler,
+                    mock_compilation_for_testing=True
+                )
 
-            if generated_pdf_path and os.path.exists(generated_pdf_path):
-                # Ensure output directory exists for the final PDF
-                final_output_dir = os.path.dirname(args.output_pdf_file)
-                if final_output_dir and not os.path.exists(final_output_dir):
-                    os.makedirs(final_output_dir)
-
-                shutil.move(generated_pdf_path, args.output_pdf_file)
-                print(f"Successfully generated PDF: {args.output_pdf_file}")
-
-                if args.keep_tex_file:
-                    # Optionally copy .tex file to same dir as PDF
-                    final_tex_filename = os.path.basename(args.output_pdf_file).replace(".pdf", ".tex")
-                    final_tex_path = os.path.join(final_output_dir or '.', final_tex_filename)
-                    shutil.copy(temp_tex_filepath, final_tex_path)
-                    print(f"Intermediate .tex file saved to: {final_tex_path}")
-            else: # PDF generation failed
-                print("PDF generation failed.")
-                if args.keep_tex_file and os.path.exists(temp_tex_filepath):
-                    # Try to save the .tex file even if PDF failed, for debugging
+                if generated_pdf_path and os.path.exists(generated_pdf_path):
+                    # Ensure output directory exists for the final PDF
                     final_output_dir = os.path.dirname(args.output_pdf_file)
                     if final_output_dir and not os.path.exists(final_output_dir):
                         os.makedirs(final_output_dir)
-                    final_tex_filename = os.path.basename(args.output_pdf_file).replace(".pdf", ".tex")
-                    final_tex_path = os.path.join(final_output_dir or '.', final_tex_filename)
-                    try:
+
+                    shutil.move(generated_pdf_path, args.output_pdf_file)
+                    print(f"Successfully generated PDF: {args.output_pdf_file}")
+
+                    if args.keep_tex_file:
+                        # Optionally copy .tex file to same dir as PDF
+                        final_tex_filename = os.path.basename(args.output_pdf_file).replace(".pdf", ".tex")
+                        final_tex_path = os.path.join(final_output_dir or '.', final_tex_filename)
                         shutil.copy(temp_tex_filepath, final_tex_path)
-                        print(f"Intermediate .tex file (from failed PDF build) saved to: {final_tex_path}")
-                    except Exception as e_copy:
-                        print(f"Could not copy .tex file after failed build: {e_copy}")
-                sys.exit(1)
+                        print(f"Intermediate .tex file saved to: {final_tex_path}")
+                else: # PDF generation failed
+                    print("PDF generation failed.")
+                    if args.keep_tex_file and os.path.exists(temp_tex_filepath):
+                        # Try to save the .tex file even if PDF failed, for debugging
+                        final_output_dir = os.path.dirname(args.output_pdf_file)
+                        if final_output_dir and not os.path.exists(final_output_dir):
+                            os.makedirs(final_output_dir)
+                        final_tex_filename = os.path.basename(args.output_pdf_file).replace(".pdf", ".tex")
+                        final_tex_path = os.path.join(final_output_dir or '.', final_tex_filename)
+                        try:
+                            shutil.copy(temp_tex_filepath, final_tex_path)
+                            print(f"Intermediate .tex file (from failed PDF build) saved to: {final_tex_path}")
+                        except Exception as e_copy:
+                            print(f"Could not copy .tex file after failed build: {e_copy}")
+                    sys.exit(1)
 
     except FileNotFoundError:
         print(f"Error: Input file '{args.input_file}' not found.")
