@@ -66,6 +66,12 @@ class HTMLResumeGenerator:
             max-width: {doc['max_width']};
             margin: 0 auto;
             padding: {doc['padding']};
+            font-display: swap;
+        }}
+        
+        /* Ensure font loading */
+        .font-loading {{
+            font-family: "{fonts['primary']}", {', '.join([f'"{f}"' for f in fonts['fallbacks']])};
         }}
 
         /* Header */
@@ -119,6 +125,10 @@ class HTMLResumeGenerator:
         .entry-date {{
             font-weight: {styles['entry_date']['font_weight']};
         }}
+        
+        .entry-location {{
+            font-weight: normal;
+        }}
 
         .entry-sub {{
             display: flex;
@@ -137,7 +147,8 @@ class HTMLResumeGenerator:
         .item-list li {{
             margin-bottom: {spacing['item_margin_bottom']};
             list-style-type: disc;
-            font-size: {typo['small_size']};
+            font-size: calc({typo['small_size']} * 1.01);
+            line-height: 1.21;
         }}
 
         /* Projects specific */
@@ -166,6 +177,7 @@ class HTMLResumeGenerator:
 
         .skill-line {{
             margin-bottom: {spacing['skill_line_margin_bottom']};
+            font-size: {typo['small_size']};
         }}
 
         /* Print styles */
@@ -214,7 +226,9 @@ class HTMLResumeGenerator:
                 main_fields = section_config["fields"]["main"]
                 html += f'    <div class="entry">\n'
                 html += f'        <div class="entry-main">{entry.get(main_fields[0], "")}</div>\n'
-                html += f'        <div class="entry-date">{entry.get(main_fields[1], "")}</div>\n'
+                # For education section, locations should not be bold
+                location_class = "entry-location" if section_key == "education" else "entry-date"
+                html += f'        <div class="{location_class}">{entry.get(main_fields[1], "")}</div>\n'
                 html += f'    </div>\n'
                 
                 # Sub row
@@ -296,7 +310,11 @@ class HTMLResumeGenerator:
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="{google_fonts}" rel="stylesheet">
-    <style>{self.generate_css()}</style>
+    <style>
+        /* Ensure font loads with high priority */
+        @import url('{google_fonts}');
+        {self.generate_css()}
+    </style>
 </head>
 <body>
 '''

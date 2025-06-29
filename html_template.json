@@ -7,18 +7,18 @@
     "padding": "0.5in"
   },
   "fonts": {
-    "primary": "Crimson Text",
-    "fallbacks": ["Computer Modern Serif", "Latin Modern Roman", "Times New Roman", "Times", "serif"],
-    "google_fonts": "https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&display=swap"
+    "primary": "Computer Modern Serif",
+    "fallbacks": ["CMU Serif", "Latin Modern Roman", "TeX Gyre Termes", "Times New Roman", "Times", "serif"],
+    "google_fonts": "https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css"
   },
   "typography": {
-    "base_font_size": "12pt",
-    "line_height": "1.0",
-    "name_size": "25pt",
-    "section_title_size": "14pt", 
-    "contact_size": "10pt",
-    "body_size": "12pt",
-    "small_size": "10pt"
+    "base_font_size": "11pt",
+    "line_height": "1.15",
+    "name_size": "24pt",
+    "section_title_size": "13pt", 
+    "contact_size": "9.5pt",
+    "body_size": "11pt",
+    "small_size": "9.5pt"
   },
   "spacing": {
     "header_margin_bottom": "15pt",
@@ -26,7 +26,7 @@
     "section_margin_bottom": "12pt",
     "section_title_margin_bottom": "2pt",
     "entry_margin_bottom": "2pt",
-    "entry_sub_margin_bottom": "8pt",
+    "entry_sub_margin_bottom": "2pt",
     "item_list_margin_left": "15pt",
     "item_list_margin_bottom": "8pt",
     "item_margin_bottom": "1pt",
@@ -35,7 +35,7 @@
   "styles": {
     "name": {
       "font_weight": "bold",
-      "font_variant": "small-caps",
+      "font_variant": "normal",
       "text_align": "center"
     },
     "contact": {
@@ -52,7 +52,7 @@
       "font_weight": "bold"
     },
     "entry_date": {
-      "font_weight": "bold"
+      "font_weight": "normal"
     },
     "entry_sub": {
       "font_style": "italic"
