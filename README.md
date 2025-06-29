@@ -203,19 +203,21 @@ The `resume_data.json` file structure:
 ## Typography & Design
 
 ### Font Selection
-The default template uses **Crimson Text**, a web font that closely resembles LaTeX's Computer Modern serif font. The generator includes proper fallbacks:
+The default template uses **Computer Modern Serif**, the authentic LaTeX font via web CDN. The generator includes proper fallbacks:
 
-1. Crimson Text (Google Fonts)
-2. Computer Modern Serif 
+1. Computer Modern Serif (Web CDN)
+2. CMU Serif 
 3. Latin Modern Roman
-4. Times New Roman
-5. Generic serif
+4. TeX Gyre Termes
+5. Times New Roman
+6. Generic serif
 
 ### Font Sizes (LaTeX Equivalent)
-- **Name**: 25pt (matches LaTeX `\Huge`)
-- **Section Titles**: 14pt (matches LaTeX `\large`)
-- **Body Text**: 12pt (base size)
-- **Details**: 10pt (matches LaTeX `\small`)
+- **Name**: 24pt (matches LaTeX `\Huge`)
+- **Section Titles**: 13pt (matches LaTeX `\large`)
+- **Body Text**: 11pt (base size)
+- **Details**: 9.5pt (matches LaTeX `\small`)
+- **Line Height**: 1.15 for optimal readability
 
 ### Layout Principles
 - **Two-column entries**: Left-aligned main content, right-aligned dates
