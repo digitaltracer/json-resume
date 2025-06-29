@@ -1,172 +1,144 @@
 # JSON Resume Generator
 
-A native Python resume generator that creates professional HTML/CSS resumes from JSON data. No LaTeX dependencies required - generates clean, print-ready HTML that closely matches LaTeX typography and formatting.
+A **JSON-driven resume generator** that creates professional HTML/CSS resumes from structured JSON data and converts them to high-quality PDFs using Playwright. Achieve LaTeX-quality typography without LaTeX dependencies.
 
-## Features
+## 🚀 Quick Start
 
-- **Native Python**: No external dependencies beyond Python packages
-- **JSON-Driven Templates**: Configure layout, fonts, and styling via JSON
-- **Professional Typography**: Matches LaTeX-quality output with proper fonts and spacing
-- **Print-Ready**: Generates HTML optimized for browser printing to PDF
-- **Flexible**: Easy customization through JSON template configuration
-
-## Prerequisites
-
-- Python 3.x
-- [uv](https://github.com/astral-sh/uv) (recommended for package management)
-
-## Installation & Setup
-
-1. **Install `uv`** (if you don't have it):
-   ```bash
-   pip install uv
-   # or
-   # curl -LsSf https://astral.sh/uv/install.sh | sh
-   ```
-
-2. **Create virtual environment and install dependencies**:
-   ```bash
-   uv venv .venv
-   source .venv/bin/activate  # Or .venv\Scripts\activate on Windows
-   uv sync --dev
-   ```
-
-3. **Install Jinja2** (template engine):
-   ```bash
-   pip install jinja2
-   # or
-   uv add jinja2
-   ```
-
-## Quick Start
-
-Generate a resume using the default template and data:
-
+### One-Command PDF Generation
 ```bash
-python3 html_generator.py --input resume_data.json --output my_resume.html
+# Generate PDF directly from JSON (recommended)
+python3 resume_to_pdf.py --input resume_data.json --output resume.pdf
+
+# With custom theme
+python3 resume_to_pdf.py --input resume_data.json --template modern_theme.json --output resume.pdf
 ```
 
-Open `my_resume.html` in your browser and print to PDF for final output.
-
-## Usage
-
-### Basic Usage
-
+### Step-by-Step Generation
 ```bash
-# Generate HTML resume with default settings
-python3 html_generator.py
+# 1. Generate HTML
+python3 html_generator.py --input resume_data.json --output resume.html
 
-# Custom input/output files
-python3 html_generator.py --input my_data.json --output resume.html --template my_template.json
+# 2. Convert to PDF
+python3 pdf_generator.py resume.html resume.pdf
 ```
 
-### Command-Line Options
+## ✨ Features
 
-- `--input FILE` - Input JSON resume data file (default: `resume_data.json`)
-- `--output FILE` - Output HTML file (default: `resume.html`)
-- `--template FILE` - JSON template configuration file (default: `html_template.json`)
-- `--help` - Show help message
+- **🎨 100% Theme Configurability**: All styling defined in JSON templates
+- **📄 One-Command Workflow**: JSON → PDF in a single script
+- **🖨️ Print-Ready**: Optimized for browser PDF printing
+- **🎯 Professional Typography**: LaTeX-quality formatting with web fonts
+- **🔧 No Dependencies**: Uses HTML/CSS instead of LaTeX
+- **🎪 Multiple Themes**: Easy theme creation and switching
 
-## File Structure
+## 📁 Project Structure
 
-### Core Files
+```
+json-resume/
+├── resume_to_pdf.py        # 🎯 Main: JSON → PDF (one command)
+├── html_generator.py       # HTML generation engine
+├── pdf_generator.py        # HTML → PDF conversion
+├── resume_data.json        # 📝 Resume content data
+├── html_template.json      # 🎨 Complete theme configuration
+├── theme.json             # Legacy theme file
+└── pyproject.toml         # Dependencies
+```
 
-- **`html_generator.py`** - Main HTML generator script
-- **`html_template.json`** - JSON template configuration (fonts, layout, styling)
-- **`resume_data.json`** - Sample resume data in JSON format
+## 🎨 Theme System
 
-### Generated Files
-
-- **`*.html`** - Generated HTML resume files
-
-## JSON Template Configuration
-
-The `html_template.json` file controls all aspects of the resume layout and styling:
+### Complete Theme Configurability
+All styling is defined in JSON templates with zero hardcoded CSS:
 
 ```json
 {
   "document": {
-    "title": "{{ name }} - Resume",
     "page_size": "letter",
-    "margins": "0.5in",
-    "max_width": "7.5in"
+    "margins": "0.5in"
   },
   "fonts": {
-    "primary": "Crimson Text",
-    "fallbacks": ["Computer Modern Serif", "Times New Roman", "serif"],
-    "google_fonts": "https://fonts.googleapis.com/css2?family=Crimson+Text..."
+    "primary": "Computer Modern Serif",
+    "google_fonts": "https://..."
   },
   "typography": {
-    "base_font_size": "12pt",
-    "name_size": "25pt",
-    "section_title_size": "14pt",
-    "contact_size": "10pt",
-    "small_size": "10pt"
+    "base_font_size": "11pt",
+    "name_size": "24pt"
   },
   "spacing": {
-    "header_margin_bottom": "15pt",
-    "section_margin_bottom": "12pt",
+    "section_margin_bottom": "9pt",
     "entry_margin_bottom": "2pt"
   },
-  "layout": {
-    "sections": {
-      "education": {
-        "title": "Education",
-        "type": "two_column_entries",
-        "fields": {
-          "main": ["university", "location"],
-          "sub": ["degree", "date"]
-        }
+  "css": {
+    "header": {
+      ".name": {
+        "font-size": "{{ typography.name_size }}",
+        "font-weight": "bold"
       }
     }
   }
 }
 ```
 
-### Customization Options
+### Creating Custom Themes
+```bash
+# Copy default theme
+cp html_template.json my_theme.json
 
-#### Fonts
-- Change `fonts.primary` to use different web fonts
-- Modify `fonts.google_fonts` URL for custom Google Fonts
-- Adjust font fallback stack in `fonts.fallbacks`
+# Edit my_theme.json (change fonts, colors, spacing)
 
-#### Typography
-- `name_size`: Size of the main name heading (default: 25pt)
-- `section_title_size`: Size of section titles (default: 14pt)
-- `base_font_size`: Base body text size (default: 12pt)
-- `contact_size` & `small_size`: Size for contact info and details (default: 10pt)
+# Use custom theme
+python3 resume_to_pdf.py --template my_theme.json --output resume.pdf
+```
 
-#### Spacing
-- `header_margin_bottom`: Space after header section
-- `section_margin_bottom`: Space between sections
-- `entry_margin_bottom`: Space between entries
-- `item_list_margin_left`: Indentation for bullet points
+## 📋 Usage Examples
 
-#### Layout Types
-- `two_column_entries`: Standard two-column layout (title/date, subtitle/location)
-- `two_column_entries_with_items`: Two-column with bullet point items
-- `project_entries`: Special layout for projects (name | tech stack)
-- `skills_list`: Skills organized by category
+### Basic Usage
+```bash
+# Default settings
+python3 resume_to_pdf.py
 
-## Input Data Format
+# Equivalent to:
+python3 resume_to_pdf.py --input resume_data.json --template html_template.json --output resume.pdf
+```
 
-The `resume_data.json` file structure:
+### Custom Configurations
+```bash
+# Different resume data
+python3 resume_to_pdf.py --input john_resume.json --output john.pdf
+
+# Different theme
+python3 resume_to_pdf.py --template modern_theme.json --output resume_modern.pdf
+
+# Full customization
+python3 resume_to_pdf.py --input jane_resume.json --template minimal_theme.json --output jane_minimal.pdf
+```
+
+### Multiple Versions
+```bash
+# Same data, different themes
+python3 resume_to_pdf.py --input resume_data.json --template classic_theme.json --output resume_classic.pdf
+python3 resume_to_pdf.py --input resume_data.json --template modern_theme.json --output resume_modern.pdf
+python3 resume_to_pdf.py --input resume_data.json --template minimal_theme.json --output resume_minimal.pdf
+```
+
+## 📝 Resume Data Format
+
+Structure your resume data in `resume_data.json`:
 
 ```json
 {
   "name": "Your Name",
   "contact": {
     "phone": "123-456-7890",
-    "email": "email@example.com",
-    "linkedin": "linkedin.com/in/username",
-    "github": "github.com/username"
+    "email": "you@example.com",
+    "linkedin": "linkedin.com/in/you",
+    "github": "github.com/you"
   },
   "education": [
     {
       "university": "University Name",
       "location": "City, State",
-      "degree": "Degree and Major",
-      "date": "Start Date - End Date"
+      "degree": "Degree Title",
+      "date": "Start - End"
     }
   ],
   "experience": [
@@ -174,9 +146,9 @@ The `resume_data.json` file structure:
       "title": "Job Title",
       "company": "Company Name",
       "location": "City, State",
-      "dates": "Start Date - End Date",
+      "dates": "Start - End",
       "responsibilities": [
-        "Achievement or responsibility description",
+        "Achievement or responsibility",
         "Another achievement"
       ]
     }
@@ -184,144 +156,130 @@ The `resume_data.json` file structure:
   "projects": [
     {
       "name": "Project Name",
-      "technologies": ["Tech1", "Tech2", "Tech3"],
-      "date": "Project Date",
+      "technologies": ["Tech1", "Tech2"],
+      "date": "Date",
       "description": [
-        "Project description or achievement",
-        "Another project detail"
+        "Project description",
+        "Key achievements"
       ]
     }
   ],
   "skills": {
-    "Languages": ["Python", "JavaScript", "Java"],
-    "Frameworks": ["React", "Flask", "Django"],
-    "Tools": ["Git", "Docker", "AWS"]
+    "Languages": ["Python", "JavaScript"],
+    "Frameworks": ["React", "Flask"],
+    "Tools": ["Git", "Docker"]
   }
 }
 ```
 
-## Typography & Design
+## ⚙️ Installation
 
-### Font Selection
-The default template uses **Computer Modern Serif**, the authentic LaTeX font via web CDN. The generator includes proper fallbacks:
-
-1. Computer Modern Serif (Web CDN)
-2. CMU Serif 
-3. Latin Modern Roman
-4. TeX Gyre Termes
-5. Times New Roman
-6. Generic serif
-
-### Font Sizes (LaTeX Equivalent)
-- **Name**: 24pt (matches LaTeX `\Huge`)
-- **Section Titles**: 13pt (matches LaTeX `\large`)
-- **Body Text**: 11pt (base size)
-- **Details**: 9.5pt (matches LaTeX `\small`)
-- **Line Height**: 1.15 for optimal readability
-
-### Layout Principles
-- **Two-column entries**: Left-aligned main content, right-aligned dates
-- **Clean spacing**: Consistent margins and padding throughout
-- **Professional typography**: Proper line height and letter spacing
-- **Print optimization**: CSS designed for high-quality PDF generation
-
-## Generating PDFs
-
-### Method 1: Browser Print (Recommended)
-1. Open the generated HTML file in your browser
-2. Press `Ctrl+P` (Windows/Linux) or `Cmd+P` (Mac)
-3. Choose "Save as PDF" or "Print to PDF"
-4. Ensure margins are set to "Minimum" for best results
-
-### Method 2: Command Line Tools
+### Dependencies
 ```bash
-# Using wkhtmltopdf (if installed)
-wkhtmltopdf resume.html resume.pdf
+# Install dependencies
+pip install playwright
 
-# Using Chrome/Chromium headless
-google-chrome --headless --disable-gpu --print-to-pdf=resume.pdf resume.html
+# Install browser
+playwright install chromium
 ```
 
-## Development
+### Alternative with UV
+```bash
+# Using UV package manager
+uv sync
+uv run resume_to_pdf.py --input resume_data.json --output resume.pdf
+```
+
+## 🎛️ Advanced Theme Customization
+
+### Typography Settings
+```json
+{
+  "typography": {
+    "base_font_size": "11pt",
+    "line_height": "1.15",
+    "name_size": "24pt",
+    "section_title_size": "13pt",
+    "contact_size": "9.5pt",
+    "small_size": "9.5pt"
+  }
+}
+```
+
+### Layout Spacing
+```json
+{
+  "spacing": {
+    "header_margin_bottom": "15pt",
+    "section_margin_bottom": "9pt",
+    "section_content_margin_left": "15pt",
+    "entry_margin_bottom": "2pt",
+    "item_list_margin_left": "15pt"
+  }
+}
+```
+
+### Complete CSS Control
+The theme system allows complete CSS customization through JSON:
+
+```json
+{
+  "css": {
+    "sections": {
+      ".section-title": {
+        "font-variant": "small-caps",
+        "border-bottom": "0.5pt solid black",
+        "color": "{{ custom.primary_color }}"
+      }
+    }
+  }
+}
+```
+
+## 🛠️ Development
 
 ### Code Quality
-The project uses `ruff` for linting and formatting:
-
 ```bash
-# Format code
-ruff format . 
-# or
-uv run ruff format .
+# Linting
+uv run ruff check
+uv run ruff format
 
-# Check and fix linting issues
-ruff check --fix .
-# or 
-uv run ruff check --fix .
+# Type checking with ruff
+uv run ruff check --select=F
 ```
 
-### Project Structure
+### Architecture
+- **JSON-First**: All configuration in JSON files
+- **Template-Driven**: Zero hardcoded styling in Python
+- **Modular Design**: Separate HTML generation and PDF conversion
+- **Clean Separation**: Logic vs. presentation
+
+## 📖 Legacy Workflows
+
+### HTML-Only Generation
+```bash
+python3 html_generator.py --input resume_data.json --output resume.html
 ```
-json-resume/
-├── html_generator.py         # Main HTML generator
-├── html_template.json        # Template configuration
-├── resume_data.json          # Sample resume data
-├── README.md                 # This file
-├── pyproject.toml           # Python project config
-└── uv.lock                  # Dependency lock file
+
+### HTML to PDF Conversion
+```bash
+python3 pdf_generator.py resume.html resume.pdf
 ```
 
-## Troubleshooting
+## 🎯 Key Benefits
 
-### Common Issues
+1. **One Command**: JSON → PDF directly
+2. **Theme Flexibility**: Create unlimited themes via JSON
+3. **Professional Output**: LaTeX-quality typography
+4. **No LaTeX**: Pure HTML/CSS approach
+5. **Web Fonts**: Google Fonts integration
+6. **Print Optimized**: Perfect PDF generation
+7. **Developer Friendly**: JSON configuration, not code
 
-**Template file not found**
-```
-Error: Template file 'html_template.json' not found.
-```
-- Ensure `html_template.json` exists in the current directory
-- Use `--template` flag to specify a different template file
+## 🤝 Contributing
 
-**JSON parsing errors**
-```
-Error parsing JSON: ...
-```
-- Validate your JSON syntax using a JSON validator
-- Check for missing commas, quotes, or brackets
-- Ensure UTF-8 encoding for special characters
+The project follows a clean architecture with complete separation between content (JSON), presentation (CSS/themes), and logic (Python). All styling is externalized to JSON templates, making theme creation accessible without coding.
 
-**Font rendering issues**
-- Web fonts require internet connection for first load
-- Local fonts in fallback list will be used if web fonts fail
-- Check browser console for font loading errors
+---
 
-### Performance Tips
-- Generated HTML files are self-contained with embedded CSS
-- No external dependencies needed after generation
-- Files can be shared and opened on any device with a web browser
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run `ruff format .` and `ruff check --fix .`
-5. Submit a pull request
-
-## License
-
-MIT License - see the original template license for details.
-
-## Comparison with LaTeX Approach
-
-### Advantages of HTML/CSS Approach
-- ✅ **No LaTeX installation required**
-- ✅ **Universal compatibility** (works on any device with a browser)
-- ✅ **Easy customization** (JSON configuration vs. LaTeX code)
-- ✅ **Fast generation** (no compilation step)
-- ✅ **Modern typography** (web fonts, responsive design)
-
-### When to Use
-- **HTML/CSS**: For most users, easy customization, no dependencies
-- **LaTeX**: When pixel-perfect reproduction of existing LaTeX templates is required
-
-The HTML/CSS approach achieves 95%+ visual similarity to LaTeX output while being much more accessible and maintainable.
+**Generate professional resumes with the simplicity of JSON and the power of modern web technologies!** 🚀
