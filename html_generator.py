@@ -111,6 +111,10 @@ class HTMLResumeGenerator:
             padding-bottom: {styles['section_title']['padding_bottom']};
         }}
 
+        .section-content {{
+            margin-left: 15pt;
+        }}
+
         /* Two-column layout for entries */
         .entry {{
             display: flex;
@@ -219,77 +223,79 @@ class HTMLResumeGenerator:
             
         html = f'<div class="section">\n'
         html += f'    <div class="section-title">{section_config["title"]}</div>\n'
+        html += f'    <div class="section-content">\n'
         
         if section_config["type"] == "two_column_entries":
             for entry in section_data:
                 # Main row
                 main_fields = section_config["fields"]["main"]
-                html += f'    <div class="entry">\n'
-                html += f'        <div class="entry-main">{entry.get(main_fields[0], "")}</div>\n'
+                html += f'        <div class="entry">\n'
+                html += f'            <div class="entry-main">{entry.get(main_fields[0], "")}</div>\n'
                 # For education section, locations should not be bold
                 location_class = "entry-location" if section_key == "education" else "entry-date"
-                html += f'        <div class="{location_class}">{entry.get(main_fields[1], "")}</div>\n'
-                html += f'    </div>\n'
+                html += f'            <div class="{location_class}">{entry.get(main_fields[1], "")}</div>\n'
+                html += f'        </div>\n'
                 
                 # Sub row
                 sub_fields = section_config["fields"]["sub"]
-                html += f'    <div class="entry-sub">\n'
-                html += f'        <div>{entry.get(sub_fields[0], "")}</div>\n'
-                html += f'        <div>{entry.get(sub_fields[1], "")}</div>\n'
-                html += f'    </div>\n'
+                html += f'        <div class="entry-sub">\n'
+                html += f'            <div>{entry.get(sub_fields[0], "")}</div>\n'
+                html += f'            <div>{entry.get(sub_fields[1], "")}</div>\n'
+                html += f'        </div>\n'
         
         elif section_config["type"] == "two_column_entries_with_items":
             for entry in section_data:
                 # Main row
                 main_fields = section_config["fields"]["main"]
-                html += f'    <div class="entry">\n'
-                html += f'        <div class="entry-main">{entry.get(main_fields[0], "")}</div>\n'
-                html += f'        <div class="entry-date">{entry.get(main_fields[1], "")}</div>\n'
-                html += f'    </div>\n'
+                html += f'        <div class="entry">\n'
+                html += f'            <div class="entry-main">{entry.get(main_fields[0], "")}</div>\n'
+                html += f'            <div class="entry-date">{entry.get(main_fields[1], "")}</div>\n'
+                html += f'        </div>\n'
                 
                 # Sub row
                 sub_fields = section_config["fields"]["sub"]
-                html += f'    <div class="entry-sub">\n'
-                html += f'        <div>{entry.get(sub_fields[0], "")}</div>\n'
-                html += f'        <div>{entry.get(sub_fields[1], "")}</div>\n'
-                html += f'    </div>\n'
+                html += f'        <div class="entry-sub">\n'
+                html += f'            <div>{entry.get(sub_fields[0], "")}</div>\n'
+                html += f'            <div>{entry.get(sub_fields[1], "")}</div>\n'
+                html += f'        </div>\n'
                 
                 # Items list
                 items_field = section_config["fields"]["items"]
                 if entry.get(items_field):
-                    html += f'    <ul class="item-list">\n'
+                    html += f'        <ul class="item-list">\n'
                     for item in entry[items_field]:
-                        html += f'        <li>{item}</li>\n'
-                    html += f'    </ul>\n'
+                        html += f'            <li>{item}</li>\n'
+                    html += f'        </ul>\n'
         
         elif section_config["type"] == "project_entries":
             for entry in section_data:
                 # Project header
-                html += f'    <div class="project-header">\n'
-                html += f'        <div>\n'
-                html += f'            <span class="project-name">{entry.get("name", "")}</span> | \n'
+                html += f'        <div class="project-header">\n'
+                html += f'            <div>\n'
+                html += f'                <span class="project-name">{entry.get("name", "")}</span> | \n'
                 tech_list = entry.get("technologies", [])
-                html += f'            <span class="project-tech">{", ".join(tech_list)}</span>\n'
+                html += f'                <span class="project-tech">{", ".join(tech_list)}</span>\n'
+                html += f'            </div>\n'
+                html += f'            <div>{entry.get("date", "")}</div>\n'
                 html += f'        </div>\n'
-                html += f'        <div>{entry.get("date", "")}</div>\n'
-                html += f'    </div>\n'
                 
                 # Description items
                 if entry.get("description"):
-                    html += f'    <ul class="item-list">\n'
+                    html += f'        <ul class="item-list">\n'
                     for desc in entry["description"]:
-                        html += f'        <li>{desc}</li>\n'
-                    html += f'    </ul>\n'
+                        html += f'            <li>{desc}</li>\n'
+                    html += f'        </ul>\n'
         
         elif section_config["type"] == "skills_list":
-            html += f'    <div class="skills-list">\n'
+            html += f'        <div class="skills-list">\n'
             for category, skills in section_data.items():
-                html += f'        <div class="skill-line">\n'
-                html += f'            <span class="skill-category">{category}</span>: {", ".join(skills)}\n'
-                html += f'        </div>\n'
-            html += f'    </div>\n'
+                html += f'            <div class="skill-line">\n'
+                html += f'                <span class="skill-category">{category}</span>: {", ".join(skills)}\n'
+                html += f'            </div>\n'
+            html += f'        </div>\n'
         
-        html += '</div>\n\n'
+        html += '    </div>\n'  # Close section-content
+        html += '</div>\n\n'   # Close section
         return html
     
     def generate_html_from_json(self, json_data):
