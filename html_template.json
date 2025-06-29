@@ -23,10 +23,10 @@
   "spacing": {
     "header_margin_bottom": "15pt",
     "name_margin_bottom": "3pt",
-    "section_margin_bottom": "12pt",
-    "section_title_margin_bottom": "2pt",
+    "section_margin_bottom": "9pt",
+    "section_title_margin_bottom": "2.42pt",
     "entry_margin_bottom": "2pt",
-    "entry_sub_margin_bottom": "2pt",
+    "entry_sub_margin_bottom": "6pt",
     "item_list_margin_left": "15pt",
     "item_list_margin_bottom": "8pt",
     "item_margin_bottom": "1pt",
