@@ -1,0 +1,112 @@
+{
+  "document": {
+    "title": "{{ name }} - Resume",
+    "page_size": "letter",
+    "margins": "0.5in",
+    "max_width": "7.5in",
+    "padding": "0.5in"
+  },
+  "fonts": {
+    "primary": "Crimson Text",
+    "fallbacks": ["Computer Modern Serif", "Latin Modern Roman", "Times New Roman", "Times", "serif"],
+    "google_fonts": "https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&display=swap"
+  },
+  "typography": {
+    "base_font_size": "12pt",
+    "line_height": "1.0",
+    "name_size": "25pt",
+    "section_title_size": "14pt", 
+    "contact_size": "10pt",
+    "body_size": "12pt",
+    "small_size": "10pt"
+  },
+  "spacing": {
+    "header_margin_bottom": "15pt",
+    "name_margin_bottom": "3pt",
+    "section_margin_bottom": "12pt",
+    "section_title_margin_bottom": "2pt",
+    "entry_margin_bottom": "2pt",
+    "entry_sub_margin_bottom": "8pt",
+    "item_list_margin_left": "15pt",
+    "item_list_margin_bottom": "8pt",
+    "item_margin_bottom": "1pt",
+    "skill_line_margin_bottom": "2pt"
+  },
+  "styles": {
+    "name": {
+      "font_weight": "bold",
+      "font_variant": "small-caps",
+      "text_align": "center"
+    },
+    "contact": {
+      "text_align": "center",
+      "color": "black"
+    },
+    "section_title": {
+      "font_variant": "small-caps",
+      "font_weight": "normal",
+      "border_bottom": "0.5pt solid black",
+      "padding_bottom": "1pt"
+    },
+    "entry_main": {
+      "font_weight": "bold"
+    },
+    "entry_date": {
+      "font_weight": "bold"
+    },
+    "entry_sub": {
+      "font_style": "italic"
+    },
+    "project_name": {
+      "font_weight": "bold"
+    },
+    "project_tech": {
+      "font_style": "italic"
+    },
+    "skill_category": {
+      "font_weight": "bold"
+    },
+    "links": {
+      "color": "black",
+      "text_decoration": "underline"
+    }
+  },
+  "layout": {
+    "header": {
+      "type": "center",
+      "elements": ["name", "contact"]
+    },
+    "sections": {
+      "education": {
+        "title": "Education",
+        "type": "two_column_entries",
+        "fields": {
+          "main": ["university", "location"],
+          "sub": ["degree", "date"]
+        }
+      },
+      "experience": {
+        "title": "Experience", 
+        "type": "two_column_entries_with_items",
+        "fields": {
+          "main": ["title", "dates"],
+          "sub": ["company", "location"],
+          "items": "responsibilities"
+        }
+      },
+      "projects": {
+        "title": "Projects",
+        "type": "project_entries",
+        "fields": {
+          "header": ["name", "technologies", "date"],
+          "items": "description"
+        }
+      },
+      "skills": {
+        "title": "Technical Skills",
+        "type": "skills_list",
+        "format": "category_colon_list"
+      }
+    }
+  }
+}
