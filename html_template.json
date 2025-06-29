@@ -25,6 +25,7 @@
     "name_margin_bottom": "3pt",
     "section_margin_bottom": "9pt",
     "section_title_margin_bottom": "2.42pt",
+    "section_content_margin_left": "15pt",
     "entry_margin_bottom": "2pt",
     "entry_sub_margin_bottom": "6pt",
     "item_list_margin_left": "15pt",
@@ -32,43 +33,141 @@
     "item_margin_bottom": "1pt",
     "skill_line_margin_bottom": "2pt"
   },
-  "styles": {
-    "name": {
-      "font_weight": "bold",
-      "font_variant": "normal",
-      "text_align": "center"
+  "css": {
+    "reset": {
+      "*": {
+        "margin": "0",
+        "padding": "0",
+        "box-sizing": "border-box"
+      }
     },
-    "contact": {
-      "text_align": "center",
-      "color": "black"
+    "page": {
+      "@page": {
+        "size": "{{ document.page_size }}",
+        "margin": "{{ document.margins }}"
+      }
     },
-    "section_title": {
-      "font_variant": "small-caps",
-      "font_weight": "normal",
-      "border_bottom": "0.5pt solid black",
-      "padding_bottom": "1pt"
+    "body": {
+      "body": {
+        "font-family": "\"{{ fonts.primary }}\", {{ fonts.fallbacks | join(', ') }}",
+        "font-size": "{{ typography.base_font_size }}",
+        "line-height": "{{ typography.line_height }}",
+        "color": "black",
+        "max-width": "{{ document.max_width }}",
+        "margin": "0 auto",
+        "padding": "{{ document.padding }}",
+        "font-display": "swap"
+      }
     },
-    "entry_main": {
-      "font_weight": "bold"
+    "font-loading": {
+      ".font-loading": {
+        "font-family": "\"{{ fonts.primary }}\", {{ fonts.fallbacks | join(', ') }}"
+      }
     },
-    "entry_date": {
-      "font_weight": "normal"
+    "header": {
+      ".header": {
+        "text-align": "center",
+        "margin-bottom": "{{ spacing.header_margin_bottom }}"
+      },
+      ".name": {
+        "font-size": "{{ typography.name_size }}",
+        "font-weight": "bold",
+        "font-variant": "normal",
+        "margin-bottom": "{{ spacing.name_margin_bottom }}"
+      },
+      ".contact": {
+        "font-size": "{{ typography.contact_size }}",
+        "color": "black"
+      },
+      ".contact a": {
+        "color": "black",
+        "text-decoration": "underline"
+      }
     },
-    "entry_sub": {
-      "font_style": "italic"
+    "sections": {
+      ".section": {
+        "margin-bottom": "{{ spacing.section_margin_bottom }}"
+      },
+      ".section-title": {
+        "font-size": "{{ typography.section_title_size }}",
+        "font-variant": "small-caps",
+        "font-weight": "normal",
+        "margin-bottom": "{{ spacing.section_title_margin_bottom }}",
+        "border-bottom": "0.5pt solid black",
+        "padding-bottom": "1pt"
+      },
+      ".section-content": {
+        "margin-left": "{{ spacing.section_content_margin_left }}"
+      }
     },
-    "project_name": {
-      "font_weight": "bold"
+    "entries": {
+      ".entry": {
+        "display": "flex",
+        "justify-content": "space-between",
+        "margin-bottom": "{{ spacing.entry_margin_bottom }}"
+      },
+      ".entry-main": {
+        "font-weight": "bold"
+      },
+      ".entry-date": {
+        "font-weight": "normal"
+      },
+      ".entry-location": {
+        "font-weight": "normal"
+      },
+      ".entry-sub": {
+        "display": "flex",
+        "justify-content": "space-between",
+        "margin-bottom": "{{ spacing.entry_sub_margin_bottom }}",
+        "font-style": "italic",
+        "font-size": "{{ typography.small_size }}"
+      }
     },
-    "project_tech": {
-      "font_style": "italic"
+    "items": {
+      ".item-list": {
+        "margin-left": "{{ spacing.item_list_margin_left }}",
+        "margin-bottom": "{{ spacing.item_list_margin_bottom }}"
+      },
+      ".item-list li": {
+        "margin-bottom": "{{ spacing.item_margin_bottom }}",
+        "list-style-type": "disc",
+        "font-size": "calc({{ typography.small_size }} * 1.01)",
+        "line-height": "1.21"
+      }
     },
-    "skill_category": {
-      "font_weight": "bold"
+    "projects": {
+      ".project-header": {
+        "display": "flex",
+        "justify-content": "space-between",
+        "margin-bottom": "{{ spacing.entry_margin_bottom }}"
+      },
+      ".project-name": {
+        "font-weight": "bold"
+      },
+      ".project-tech": {
+        "font-style": "italic"
+      }
     },
-    "links": {
-      "color": "black",
-      "text_decoration": "underline"
+    "skills": {
+      ".skills-list": {
+        "margin-left": "{{ spacing.item_list_margin_left }}"
+      },
+      ".skill-category": {
+        "font-weight": "bold"
+      },
+      ".skill-line": {
+        "margin-bottom": "{{ spacing.skill_line_margin_bottom }}",
+        "font-size": "{{ typography.small_size }}"
+      }
+    },
+    "print": {
+      "@media print": {
+        "body": {
+          "padding": "0",
+          "max-width": "none", 
+          "margin": "0"
+        }
+      }
     }
   },
   "layout": {

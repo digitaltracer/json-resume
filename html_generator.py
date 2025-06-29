@@ -39,161 +39,86 @@ class HTMLResumeGenerator:
     
     def generate_css(self):
         """Generate CSS from JSON template configuration"""
-        t = self.template
-        fonts = t["fonts"]
-        typo = t["typography"] 
-        spacing = t["spacing"]
-        styles = t["styles"]
-        doc = t["document"]
+        if "css" not in self.template:
+            return ""
         
-        css = f"""
-        @page {{
-            size: {doc['page_size']};
-            margin: {doc['margins']};
-        }}
-
-        * {{
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }}
-
-        body {{
-            font-family: "{fonts['primary']}", {', '.join([f'"{f}"' for f in fonts['fallbacks']])};
-            font-size: {typo['base_font_size']};
-            line-height: {typo['line_height']};
-            color: black;
-            max-width: {doc['max_width']};
-            margin: 0 auto;
-            padding: {doc['padding']};
-            font-display: swap;
-        }}
+        css_config = self.template["css"]
+        css_parts = []
         
-        /* Ensure font loading */
-        .font-loading {{
-            font-family: "{fonts['primary']}", {', '.join([f'"{f}"' for f in fonts['fallbacks']])};
-        }}
-
-        /* Header */
-        .header {{
-            text-align: center;
-            margin-bottom: {spacing['header_margin_bottom']};
-        }}
-
-        .name {{
-            font-size: {typo['name_size']};
-            font-weight: {styles['name']['font_weight']};
-            font-variant: {styles['name']['font_variant']};
-            margin-bottom: {spacing['name_margin_bottom']};
-        }}
-
-        .contact {{
-            font-size: {typo['contact_size']};
-            color: {styles['contact']['color']};
-        }}
-
-        .contact a {{
-            color: {styles['links']['color']};
-            text-decoration: {styles['links']['text_decoration']};
-        }}
-
-        /* Sections */
-        .section {{
-            margin-bottom: {spacing['section_margin_bottom']};
-        }}
-
-        .section-title {{
-            font-size: {typo['section_title_size']};
-            font-variant: {styles['section_title']['font_variant']};
-            font-weight: {styles['section_title']['font_weight']};
-            margin-bottom: {spacing['section_title_margin_bottom']};
-            border-bottom: {styles['section_title']['border_bottom']};
-            padding-bottom: {styles['section_title']['padding_bottom']};
-        }}
-
-        .section-content {{
-            margin-left: 15pt;
-        }}
-
-        /* Two-column layout for entries */
-        .entry {{
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: {spacing['entry_margin_bottom']};
-        }}
-
-        .entry-main {{
-            font-weight: {styles['entry_main']['font_weight']};
-        }}
-
-        .entry-date {{
-            font-weight: {styles['entry_date']['font_weight']};
-        }}
+        # Process each CSS section
+        for section_name, section_rules in css_config.items():
+            css_parts.append(self._process_css_section(section_rules))
         
-        .entry-location {{
-            font-weight: normal;
-        }}
-
-        .entry-sub {{
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: {spacing['entry_sub_margin_bottom']};
-            font-style: {styles['entry_sub']['font_style']};
-            font-size: {typo['small_size']};
-        }}
-
-        /* Bullet points */
-        .item-list {{
-            margin-left: {spacing['item_list_margin_left']};
-            margin-bottom: {spacing['item_list_margin_bottom']};
-        }}
-
-        .item-list li {{
-            margin-bottom: {spacing['item_margin_bottom']};
-            list-style-type: disc;
-            font-size: calc({typo['small_size']} * 1.01);
-            line-height: 1.21;
-        }}
-
-        /* Projects specific */
-        .project-header {{
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: {spacing['entry_margin_bottom']};
-        }}
-
-        .project-name {{
-            font-weight: {styles['project_name']['font_weight']};
-        }}
-
-        .project-tech {{
-            font-style: {styles['project_tech']['font_style']};
-        }}
-
-        /* Skills */
-        .skills-list {{
-            margin-left: {spacing['item_list_margin_left']};
-        }}
-
-        .skill-category {{
-            font-weight: {styles['skill_category']['font_weight']};
-        }}
-
-        .skill-line {{
-            margin-bottom: {spacing['skill_line_margin_bottom']};
-            font-size: {typo['small_size']};
-        }}
-
-        /* Print styles */
-        @media print {{
-            body {{
-                padding: 0;
-                max-width: none;
-                margin: 0;
-            }}
-        }}
-        """
-        return css
+        return "\n".join(css_parts)
+    
+    def _process_css_section(self, rules):
+        """Process a CSS section and return formatted CSS"""
+        css_lines = []
+        
+        for selector, properties in rules.items():
+            if selector.startswith("@"):
+                # Handle @page, @media queries
+                css_lines.append(f"{selector} {{")
+                if isinstance(properties, dict):
+                    for nested_selector, nested_props in properties.items():
+                        if isinstance(nested_props, dict):
+                            css_lines.append(f"    {nested_selector} {{")
+                            for prop, value in nested_props.items():
+                                processed_value = self._process_template_value(value)
+                                css_lines.append(f"        {prop}: {processed_value};")
+                            css_lines.append("    }")
+                        else:
+                            processed_value = self._process_template_value(nested_props)
+                            css_lines.append(f"    {nested_selector}: {processed_value};")
+                css_lines.append("}")
+            elif isinstance(properties, dict):
+                # Regular CSS rule
+                css_lines.append(f"{selector} {{")
+                for prop, value in properties.items():
+                    # Replace template variables
+                    processed_value = self._process_template_value(value)
+                    css_lines.append(f"    {prop}: {processed_value};")
+                css_lines.append("}")
+        
+        return "\n".join(css_lines)
+    
+    def _process_template_value(self, value):
+        """Process template variables in CSS values"""
+        if not isinstance(value, str):
+            return str(value)
+        
+        # Handle template variables like {{ document.page_size }}
+        result = value
+        
+        # Replace document variables
+        if "{{ document." in result:
+            doc = self.template.get("document", {})
+            for key, val in doc.items():
+                result = result.replace(f"{{{{ document.{key} }}}}", str(val))
+        
+        # Replace typography variables
+        if "{{ typography." in result:
+            typo = self.template.get("typography", {})
+            for key, val in typo.items():
+                result = result.replace(f"{{{{ typography.{key} }}}}", str(val))
+        
+        # Replace spacing variables
+        if "{{ spacing." in result:
+            spacing = self.template.get("spacing", {})
+            for key, val in spacing.items():
+                result = result.replace(f"{{{{ spacing.{key} }}}}", str(val))
+        
+        # Replace fonts variables
+        if "{{ fonts." in result:
+            fonts = self.template.get("fonts", {})
+            for key, val in fonts.items():
+                if key == "fallbacks" and "{{ fonts.fallbacks | join(', ') }}" in result:
+                    joined_fonts = ', '.join([f'"{f}"' for f in val])
+                    result = result.replace("{{ fonts.fallbacks | join(', ') }}", joined_fonts)
+                else:
+                    result = result.replace(f"{{{{ fonts.{key} }}}}", str(val))
+        
+        return result
     
     def generate_header_section(self, data):
         """Generate header HTML section"""
