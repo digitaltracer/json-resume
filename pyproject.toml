@@ -5,8 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "fpdf2>=2.8.3",
-    "pylatex>=1.4.1",
+    "playwright>=1.40.0",
 ]
 
 [dependency-groups]
