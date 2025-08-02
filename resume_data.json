@@ -57,10 +57,10 @@
       "location": "Kochi, India",
       "dates": "Apr 2019 - Dec 2020",
       "responsibilities": [
-        "Primary engineer and team lead of 3-person Big Data Engineering team which works on FullContact's batch enrichment and resolve data pipeline.",
-        "Hiring, manage day to day activities of team, SCRUM master",
-        "Improve the performance of the pipeline by 10x",
-        "Automate the entire pipeline kick starting it by the action of a customer."
+        "Led a 3-person Big Data Engineering team responsible for the batch enrichment pipeline, enabling identity resolution for B2B customers.",
+        "Oversaw hiring, agile planning, and delivery cycles as team lead and SCRUM master, improving velocity and cross-team alignment.",
+        "Improved pipeline throughput by 10x by optimizing Spark jobs, storage patterns, and job orchestration.",
+        "Designed and deployed full automation of the enrichment pipeline, allowing customer-triggered processing with zero manual steps."
       ]
     },
     {
@@ -69,8 +69,8 @@
       "location": "Kochi, India",
       "dates": "Jan 2016 - Mar 2019",
       "responsibilities": [
-        "Developed multiple API services with flask.",
-        "Designed and developed an internal tool using ReactJs to help identify the conflicting data points in the graph."
+        "Developed REST APIs using Flask for FullContact's identity enrichment platform, improving service modularity and scaling backend systems.",
+        "Built a ReactJS-based internal dashboard and Chrome extension to help users detect and resolve conflicting graph data, increasing analyst productivity."
       ]
     },
     {
