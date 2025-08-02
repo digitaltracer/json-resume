@@ -102,10 +102,10 @@
       "technologies": ["Typescript", "React", "TailwindCSS", "React Native"],
       "date": "July 2025 - Present",
       "description": [
-        "A cross-platform desktop productivity application using Electron, React, and TypeScript. Managed the project within a Turborepo monorepo, creating shared packages for UI components, core business logic, and database management to ensure code consistency and streamlined development.",
-        "A comprehensive security framework featuring end-to-end encryption (E2EE) for all user data, secure local storage leveraging system-level keychain/keystore, and biometric authentication. These measures were designed to guarantee user privacy and data integrity",
-        "Developed a suite of productivity features including project/task management, goal tracking, and a rich-text journaling system. Enhanced usability and user engagement by building interactive elements such as drag-and-drop interfaces, customizable keyboard shortcuts, and advanced data visualizations like burndown charts and heatmaps.",
-        "A service to securely connect with and sync data from third-party platforms, including initial integrations for GitHub and Google Calendar. This allowed users to consolidate external tasks and events directly within the application, creating a unified productivity hub"
+        "A cross-platform desktop productivity app with Electron and React, leveraging a Turborepo monorepo to manage shared UI, core logic, and database packages for streamlined and scalable development.",
+        "Implemented a robust security framework featuring end-to-end encryption (E2EE), biometric authentication, and secure system keychain storage to ensure zero-knowledge data privacy for all user content.",
+        "A dynamic user experience by building a suite of productivity tools with 30+ interactive React components, featuring drag-and-drop functionality, data visualizations, arich-text editor, and customizable keyboard shortcuts.",
+        "A secure, extensible service to sync with third-party platforms like GitHub and Google Calendar, using OAuth and encrypted token storage to centralize external data into a unified productivity hub."
       ]
     }
   ],
