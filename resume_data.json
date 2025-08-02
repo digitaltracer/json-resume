@@ -46,9 +46,9 @@
       "location": "Kochi, India",
       "dates": "Jan 2021 - Mar 2022",
       "responsibilities": [
-        "Part of Identity Graph team that built and maintained an identity graph comprised of over 1 billion entities, 10 billion data points, and 10 TB of raw data.",
-        "Data visualization of the graph to help debugging with data issues",
-        "Built and improve over time of automation of dependent processes."
+        "Contributed to the Identity Graph team managing over 1B entities and 10B data points, enhancing entity resolution quality across 10+ products.",
+        "Built custom data visualization tools for debugging identity anomalies, reducing investigation time by 60%.",
+        "Automated and maintained several dependent data workflows, improving operational efficiency and reducing manual intervention."
       ]
     },
     {
