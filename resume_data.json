@@ -22,10 +22,10 @@
       "location": "Bangalore, India",
       "dates": "May 2024 - Present",
       "responsibilities": [
-        "Built integrations with 8+ external platforms (Salesforce, Highspot, etc.), increasing data sync reliability by 40%.",
-        "Revamped core platform architecture to enhance scalability and reduce latency by 30%.",
-        "Developed a unified internal logging and Kafka client library used across all services to enfore standardization, avoid code duplication and improve maintainability.",
-        "Set up monitoring and alerting with Prometheus and EFK, improving incident response times by 50%."
+        "Integrated with 8+ third-party platforms (e.g., Salesforce, Highspot) to enhance cross-system data ingestion, increasing sync reliability by 40%.",
+        "Redesigned the core platform architecture to accommodate growing customer demand, reducing latency by 30% and improving scalability.",
+        "Developed a standardized Kafka and logging library adopted across all microservices, minimizing code duplication and simplifying onboarding.",
+        "Implemented a centralized observability stack using Prometheus and EFK, cutting incident resolution time by 50% through real-time alerting and dashboards."
       ]
     },
     {
