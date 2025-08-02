@@ -8,14 +8,21 @@
   },
   "fonts": {
     "primary": "Computer Modern Serif",
-    "fallbacks": ["CMU Serif", "Latin Modern Roman", "TeX Gyre Termes", "Times New Roman", "Times", "serif"],
+    "fallbacks": [
+      "CMU Serif",
+      "Latin Modern Roman",
+      "TeX Gyre Termes",
+      "Times New Roman",
+      "Times",
+      "serif"
+    ],
     "google_fonts": "https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css"
   },
   "typography": {
     "base_font_size": "11pt",
     "line_height": "1.15",
     "name_size": "24pt",
-    "section_title_size": "13pt", 
+    "section_title_size": "13pt",
     "contact_size": "9.5pt",
     "body_size": "11pt",
     "small_size": "9.5pt"
@@ -121,6 +128,10 @@
         "margin-bottom": "{{ spacing.entry_sub_margin_bottom }}",
         "font-style": "italic",
         "font-size": "{{ typography.small_size }}"
+      },
+      ".entry, .entry-sub, .item-list": {
+        "break-inside": "avoid",
+        "page-break-inside": "avoid"
       }
     },
     "items": {
@@ -144,8 +155,24 @@
       ".project-name": {
         "font-weight": "bold"
       },
+      ".project-name a": {
+        "color": "black",
+        "text-decoration": "underline"
+      },
       ".project-tech": {
         "font-style": "italic"
+      },
+      ".project-header": {
+        "break-inside": "avoid",
+        "page-break-inside": "avoid"
+      }
+    },
+    "summary": {
+      ".summary-text": {
+        "margin-left": "{{ spacing.section_content_margin_left }}",
+        "font-size": "{{ typography.small_size }}",
+        "line-height": "1.3",
+        "text-align": "justify"
       }
     },
     "skills": {
@@ -164,7 +191,7 @@
       "@media print": {
         "body": {
           "padding": "0",
-          "max-width": "none", 
+          "max-width": "none",
           "margin": "0"
         }
       }
@@ -185,7 +212,7 @@
         }
       },
       "experience": {
-        "title": "Experience", 
+        "title": "Experience",
         "type": "two_column_entries_with_items",
         "fields": {
           "main": ["title", "dates"],
