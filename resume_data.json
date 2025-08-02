@@ -79,9 +79,9 @@
       "location": "Pune, India",
       "dates": "Apr 2014 - Sept 2015",
       "responsibilities": [
-        "Developed a REST API using FastAPI and PostgreSQL to store data from learning management systems",
-        "Developed a full-stack web application using Flask, React, PostgreSQL and Docker to analyze GitHub data",
-        "Explored ways to visualize GitHub collaboration in a classroom setting"
+        "Designed and implemented entity extraction algorithms for names, emails, phone numbers, and date formats from unstructured documents.",
+        "Developed logic to classify resume sections even with ambiguous or missing headings.",
+        "Assisted in decomposing a monolithic system into microservices for improved scalability."
       ]
     }
   ],
