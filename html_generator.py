@@ -163,79 +163,87 @@ class HTMLResumeGenerator:
 
         if section_config["type"] == "two_column_entries":
             for entry in section_data:
+                # Wrap entire entry to keep it together
+                html += '        <div class="basic-entry">\n'
+
                 # Main row
                 main_fields = section_config["fields"]["main"]
-                html += '        <div class="entry">\n'
-                html += (
-                    f'            <div class="entry-main">{entry.get(main_fields[0], "")}</div>\n'
-                )
+                html += '            <div class="entry">\n'
+                html += f'                <div class="entry-main">{entry.get(main_fields[0], "")}</div>\n'
                 # For education section, locations should not be bold
                 location_class = "entry-location" if section_key == "education" else "entry-date"
-                html += f'            <div class="{location_class}">{entry.get(main_fields[1], "")}</div>\n'
-                html += "        </div>\n"
+                html += f'                <div class="{location_class}">{entry.get(main_fields[1], "")}</div>\n'
+                html += "            </div>\n"
 
                 # Sub row
                 sub_fields = section_config["fields"]["sub"]
-                html += '        <div class="entry-sub">\n'
-                html += f"            <div>{entry.get(sub_fields[0], '')}</div>\n"
-                html += f"            <div>{entry.get(sub_fields[1], '')}</div>\n"
+                html += '            <div class="entry-sub">\n'
+                html += f"                <div>{entry.get(sub_fields[0], '')}</div>\n"
+                html += f"                <div>{entry.get(sub_fields[1], '')}</div>\n"
+                html += "            </div>\n"
+
+                # Close basic entry wrapper
                 html += "        </div>\n"
 
         elif section_config["type"] == "two_column_entries_with_items":
             for entry in section_data:
+                # Wrap entire experience entry to keep it together
+                html += '        <div class="experience-entry">\n'
+
                 # Main row
                 main_fields = section_config["fields"]["main"]
-                html += '        <div class="entry">\n'
-                html += (
-                    f'            <div class="entry-main">{entry.get(main_fields[0], "")}</div>\n'
-                )
-                html += (
-                    f'            <div class="entry-date">{entry.get(main_fields[1], "")}</div>\n'
-                )
-                html += "        </div>\n"
+                html += '            <div class="entry">\n'
+                html += f'                <div class="entry-main">{entry.get(main_fields[0], "")}</div>\n'
+                html += f'                <div class="entry-date">{entry.get(main_fields[1], "")}</div>\n'
+                html += "            </div>\n"
 
                 # Sub row
                 sub_fields = section_config["fields"]["sub"]
-                html += '        <div class="entry-sub">\n'
-                html += f"            <div>{entry.get(sub_fields[0], '')}</div>\n"
-                html += f"            <div>{entry.get(sub_fields[1], '')}</div>\n"
-                html += "        </div>\n"
+                html += '            <div class="entry-sub">\n'
+                html += f"                <div>{entry.get(sub_fields[0], '')}</div>\n"
+                html += f"                <div>{entry.get(sub_fields[1], '')}</div>\n"
+                html += "            </div>\n"
 
                 # Items list
                 items_field = section_config["fields"]["items"]
                 if entry.get(items_field):
-                    html += '        <ul class="item-list">\n'
+                    html += '            <ul class="item-list">\n'
                     for item in entry[items_field]:
-                        html += f"            <li>{item}</li>\n"
-                    html += "        </ul>\n"
+                        html += f"                <li>{item}</li>\n"
+                    html += "            </ul>\n"
+
+                # Close experience entry wrapper
+                html += "        </div>\n"
 
         elif section_config["type"] == "project_entries":
             for entry in section_data:
+                # Wrap entire project entry to keep it together
+                html += '        <div class="project-entry">\n'
+
                 # Project header
-                html += '        <div class="project-header">\n'
-                html += "            <div>\n"
+                html += '            <div class="project-header">\n'
+                html += "                <div>\n"
                 project_name = entry.get("name", "")
                 project_url = entry.get("url", "")
                 if project_url:
-                    html += f'                <span class="project-name"><a href="{project_url}">{project_name}</a></span> | \n'
+                    html += f'                    <span class="project-name"><a href="{project_url}">{project_name}</a></span> | \n'
                 else:
-                    html += (
-                        f'                <span class="project-name">{project_name}</span> | \n'
-                    )
+                    html += f'                    <span class="project-name">{project_name}</span> | \n'
                 tech_list = entry.get("technologies", [])
-                html += (
-                    f'                <span class="project-tech">{", ".join(tech_list)}</span>\n'
-                )
+                html += f'                    <span class="project-tech">{", ".join(tech_list)}</span>\n'
+                html += "                </div>\n"
+                html += f"                <div>{entry.get('date', '')}</div>\n"
                 html += "            </div>\n"
-                html += f"            <div>{entry.get('date', '')}</div>\n"
-                html += "        </div>\n"
 
                 # Description items
                 if entry.get("description"):
-                    html += '        <ul class="item-list">\n'
+                    html += '            <ul class="item-list">\n'
                     for desc in entry["description"]:
-                        html += f"            <li>{desc}</li>\n"
-                    html += "        </ul>\n"
+                        html += f"                <li>{desc}</li>\n"
+                    html += "            </ul>\n"
+
+                # Close project entry wrapper
+                html += "        </div>\n"
 
         elif section_config["type"] == "skills_list":
             html += '        <div class="skills-list">\n'

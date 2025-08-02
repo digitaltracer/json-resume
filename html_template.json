@@ -129,9 +129,10 @@
         "font-style": "italic",
         "font-size": "{{ typography.small_size }}"
       },
-      ".entry, .entry-sub, .item-list": {
+      ".experience-entry, .basic-entry": {
         "break-inside": "avoid",
-        "page-break-inside": "avoid"
+        "page-break-inside": "avoid",
+        "margin-bottom": "{{ spacing.entry_sub_margin_bottom }}"
       }
     },
     "items": {
@@ -162,9 +163,10 @@
       ".project-tech": {
         "font-style": "italic"
       },
-      ".project-header": {
+      ".project-entry": {
         "break-inside": "avoid",
-        "page-break-inside": "avoid"
+        "page-break-inside": "avoid",
+        "margin-bottom": "{{ spacing.entry_sub_margin_bottom }}"
       }
     },
     "summary": {
