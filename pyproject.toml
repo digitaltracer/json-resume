@@ -6,6 +6,11 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "playwright>=1.40.0",
+    "langchain",
+    "langchain-core",
+    "langchain-google-genai",
+    "langchain-openai",
+    "langchain-anthropic",
 ]
 
 [dependency-groups]
