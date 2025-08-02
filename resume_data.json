@@ -1,117 +1,136 @@
 {
-  "name": "Jake Ryan",
+  "name": "Adarsh N B",
   "contact": {
-    "phone": "123-456-7890",
-    "email": "jake@su.edu",
-    "linkedin": "linkedin.com/in/jake",
-    "github": "github.com/jake"
+    "phone": "+91 9623599354",
+    "email": "adarshnb@gmail.com",
+    "linkedin": "linkedin.com/in/adarshnb",
+    "github": "github.com/digitaltracer"
   },
   "education": [
     {
-      "university": "Southwestern University",
-      "location": "Georgetown, TX",
-      "degree": "Bachelor of Arts in Computer Science, Minor in Business",
-      "date": "Aug. 2018 - May 2021"
-    },
-    {
-      "university": "Blinn College",
-      "location": "Bryan, TX",
-      "degree": "Associate's in Liberal Arts",
-      "date": "Aug. 2014 - May 2018"
+      "university": "BITS Pilani Goa Campus",
+      "location": "Goa, India",
+      "degree": "Bachelor of Technology",
+      "date": "2014"
     }
   ],
+  "summary": "Backend-focused software engineer with 9+ years of experience designing and scaling distributed systems. Proven expertise in Kafka, asynchronous processing, system observability, and cross-functional collaboration. Passionate about simplifying complex infrastructure through clean code and robust design.",
   "experience": [
     {
-      "title": "Undergraduate Research Assistant",
-      "company": "Texas A&M University",
-      "location": "College Station, TX",
-      "dates": "June 2020 - Present",
+      "title": "Senior Software Engineer",
+      "company": "Docket AI",
+      "location": "Bangalore, India",
+      "dates": "May 2024 - Present",
+      "responsibilities": [
+        "Built integrations with 8+ external platforms (Salesforce, Highspot, etc.), increasing data sync reliability by 40%.",
+        "Revamped core platform architecture to enhance scalability and reduce latency by 30%.",
+        "Developed a unified internal logging and Kafka client library used across all services to enfore standardization, avoid code duplication and improve maintainability.",
+        "Set up monitoring and alerting with Prometheus and EFK, improving incident response times by 50%."
+      ]
+    },
+    {
+      "title": "Software Engineer",
+      "company": "Inflection.io",
+      "location": "Bangalore, India",
+      "dates": "Apr 2022 - Sep 2023",
+      "responsibilities": [
+        "Designed and developed feature that handles millions of data points and decides when to stop campaign based on the data and user's preferences.",
+        "Developer of multiple features such as email tracking (improved performance by 100x), bulk contacts upload, third party integrations (salesforce & segment).",
+        "Implemented DLQ system to handle errors in kafka pipeline.",
+        "Mentored junior team members, reviewed designs and was a lead developer in all the features developed."
+      ]
+    },
+    {
+      "title": "Senior Product Engineer",
+      "company": "FullContact",
+      "location": "Kochi, India",
+      "dates": "Jan 2021 - Mar 2022",
+      "responsibilities": [
+        "Part of Identity Graph team that built and maintained an identity graph comprised of over 1 billion entities, 10 billion data points, and 10 TB of raw data.",
+        "Data visualization of the graph to help debugging with data issues",
+        "Built and improve over time of automation of dependent processes."
+      ]
+    },
+    {
+      "title": "Team Lead - Data Pipeline",
+      "company": "FullContact",
+      "location": "Kochi, India",
+      "dates": "Apr 2019 - Dec 2020",
+      "responsibilities": [
+        "Primary engineer and team lead of 3-person Big Data Engineering team which works on FullContact's batch enrichment and resolve data pipeline.",
+        "Hiring, manage day to day activities of team, SCRUM master",
+        "Improve the performance of the pipeline by 10x",
+        "Automate the entire pipeline kick starting it by the action of a customer."
+      ]
+    },
+    {
+      "title": "Senior Software Engineer",
+      "company": "FullContact",
+      "location": "Kochi, India",
+      "dates": "Jan 2016 - Mar 2019",
+      "responsibilities": [
+        "Developed multiple API services with flask.",
+        "Designed and developed an internal tool using ReactJs to help identify the conflicting data points in the graph."
+      ]
+    },
+    {
+      "title": "Algorithms Engineer",
+      "company": "ZLemma",
+      "location": "Pune, India",
+      "dates": "Apr 2014 - Sept 2015",
       "responsibilities": [
         "Developed a REST API using FastAPI and PostgreSQL to store data from learning management systems",
         "Developed a full-stack web application using Flask, React, PostgreSQL and Docker to analyze GitHub data",
         "Explored ways to visualize GitHub collaboration in a classroom setting"
       ]
-    },
-    {
-      "title": "Information Technology Support Specialist",
-      "company": "Southwestern University",
-      "location": "Georgetown, TX",
-      "dates": "Sep. 2018 - Present",
-      "responsibilities": [
-        "Communicate with managers to set up campus computers used on campus",
-        "Assess and troubleshoot computer problems brought by students, faculty and staff",
-        "Maintain upkeep of computers, classroom equipment, and 200 printers across campus"
-      ]
-    },
-    {
-      "title": "Artificial Intelligence Research Assistant",
-      "company": "Southwestern University",
-      "location": "Georgetown, TX",
-      "dates": "May 2019 - July 2019",
-      "responsibilities": [
-        "Explored methods to generate video game dungeons based off of The Legend of Zelda",
-        "Developed a game in Java to test the generated dungeons",
-        "Contributed 50K+ lines of code to an established codebase via Git",
-        "Conducted a human subject study to determine which video game dungeon generation technique is enjoyable",
-        "Wrote an 8-page paper and gave multiple presentations on-campus",
-        "Presented virtually to the World Conference on Computational Intelligence"
-      ]
     }
   ],
   "projects": [
     {
-      "name": "Gitlytics",
-      "technologies": ["Python", "Flask", "React", "PostgreSQL", "Docker"],
-      "date": "June 2020 - Present",
+      "name": "json-resume",
+      "technologies": ["Python", "Playwright", "Langchain"],
+      "date": "June 2025",
       "description": [
-        "Developed a full-stack web application using with Flask serving a REST API with React as the frontend",
-        "Implemented GitHub OAuth to get data from user's repositories",
-        "Visualized GitHub data to show collaboration",
-        "Used Celery and Redis for asynchronous tasks"
+        "Developed a tool to generate a resume from a JSON file using Playwright using a defined template",
+        "Used Langchain to generate job matching score for a job description and a resume"
       ]
     },
     {
-      "name": "Simple Paintball",
-      "technologies": ["Spigot API", "Java", "Maven", "TravisCI", "Git"],
-      "date": "May 2018 - May 2020",
+      "name": "Serenity Notes",
+      "technologies": ["Typescript", "React", "TailwindCSS", "React Native"],
+      "date": "July 2025 - Present",
       "description": [
-        "Developed a Minecraft server plugin to entertain kids during free time for a previous job",
-        "Published plugin to websites gaining 2K+ downloads and an average 4.5/5-star review",
-        "Implemented continuous delivery using TravisCI to build the plugin upon new a release",
-        "Collaborated with Minecraft server administrators to suggest features and get feedback about the plugin"
+        "A cross-platform desktop productivity application using Electron, React, and TypeScript. Managed the project within a Turborepo monorepo, creating shared packages for UI components, core business logic, and database management to ensure code consistency and streamlined development.",
+        "A comprehensive security framework featuring end-to-end encryption (E2EE) for all user data, secure local storage leveraging system-level keychain/keystore, and biometric authentication. These measures were designed to guarantee user privacy and data integrity",
+        "Developed a suite of productivity features including project/task management, goal tracking, and a rich-text journaling system. Enhanced usability and user engagement by building interactive elements such as drag-and-drop interfaces, customizable keyboard shortcuts, and advanced data visualizations like burndown charts and heatmaps.",
+        "A service to securely connect with and sync data from third-party platforms, including initial integrations for GitHub and Google Calendar. This allowed users to consolidate external tasks and events directly within the application, creating a unified productivity hub"
       ]
     }
   ],
   "skills": {
     "Languages": [
-      "Java",
       "Python",
-      "C/C++",
-      "SQL (Postgres)",
+      "Java",
+      "Scala",
+      "TypeScript",
       "JavaScript",
-      "HTML/CSS",
-      "R"
+      "SQL",
+      "NoSQL"
     ],
-    "Frameworks": [
-      "React",
-      "Node.js",
-      "Flask",
-      "JUnit",
-      "WordPress",
-      "Material-UI",
-      "FastAPI"
+    "Soft Skills": [
+      "Team Leadership",
+      "Cross-functional Collaboration",
+      "Technical Mentorship",
+      "Project Management",
+      "Analytical Thinking"
     ],
-    "Developer Tools": [
-      "Git",
-      "Docker",
-      "TravisCI",
-      "Google Cloud Platform",
-      "VS Code",
-      "Visual Studio",
-      "PyCharm",
-      "IntelliJ",
-      "Eclipse"
-    ],
-    "Libraries": ["pandas", "NumPy", "Matplotlib"]
+    "Others": [
+      "AWS & Cloud Infrastructure",
+      "CI/CD (GitHub Actions, Jenkins)",
+      "Monitoring (Prometheus, Grafana, EFK)",
+      "Kubernetes & Docker",
+      "Apache Kafka & Airflow",
+      "Spark & Distributed Data Processing"
+    ]
   }
 }
