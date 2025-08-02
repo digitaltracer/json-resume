@@ -34,10 +34,10 @@
       "location": "Bangalore, India",
       "dates": "Apr 2022 - Sep 2023",
       "responsibilities": [
-        "Designed and developed feature that handles millions of data points and decides when to stop campaign based on the data and user's preferences.",
-        "Developer of multiple features such as email tracking (improved performance by 100x), bulk contacts upload, third party integrations (salesforce & segment).",
-        "Implemented DLQ system to handle errors in kafka pipeline.",
-        "Mentored junior team members, reviewed designs and was a lead developer in all the features developed."
+        "Created a campaign control system to process millions of data points and dynamically determine stopping criteria, improving targeting effectiveness and resource utilization.",
+        "Led development of high-impact features including 100x faster email tracking, bulk contact uploads, and CRM integrations (Salesforce, Segment), improving campaign performance and customer experience.",
+        "Designed and deployed a Dead Letter Queue (DLQ) mechanism to isolate and monitor Kafka stream errors, improving pipeline reliability and error traceability.",
+        "Mentored junior engineers, conducted code/design reviews, and led delivery of multiple cross-functional initiatives."
       ]
     },
     {
