@@ -88,6 +88,7 @@
   "projects": [
     {
       "name": "json-resume",
+      "url": "https://github.com/digitaltracer/json-resume",
       "technologies": ["Python", "Playwright", "Langchain"],
       "date": "June 2025",
       "description": [
@@ -97,6 +98,7 @@
     },
     {
       "name": "Serenity Notes",
+      "url": "https://github.com/digitaltracer/serenity",
       "technologies": ["Typescript", "React", "TailwindCSS", "React Native"],
       "date": "July 2025 - Present",
       "description": [
